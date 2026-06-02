@@ -1,0 +1,25 @@
+{
+  "schema_version": "privte_pipeline_report.v0",
+  "source_subset": "6.1data",
+  "generated_at_utc": "2026-06-02T10:26:04.342471+00:00",
+  "output_jsonl": "outputs/quickstart/6_1data_simple_video_quality/simple_mvp_evidence.6_1data.jsonl",
+  "extractor": {
+    "name": "simple_video_quality",
+    "version": "v0",
+    "feature_schema_version": "simple_video_quality_feature_schema.v0",
+    "config": {
+      "max_metadata_clips": 16,
+      "disable_opencv": false
+    }
+  },
+  "records": 11,
+  "target_label_counts": {
+    "mild_risk": 8,
+    "moderate_risk": 1,
+    "no_observed_risk": 2
+  },
+  "records_with_video": 11,
+  "records_with_heart_rate": 5,
+  "records_with_questionnaire": 9,
+  "scope_note": "Extractor-swappable PriVTE evidence pipeline. The selected extractor defines the current feature depth."
+}

@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from .extractors import EvidenceExtractor
+from .llm_package import build_llm_evidence_package
 from .renderers import build_text_evidence
 
 
@@ -49,6 +50,10 @@ def build_evidence_record(
         },
         "evidence": extracted_evidence,
     }
+    record["llm_evidence_package"] = build_llm_evidence_package(
+        sample_id,
+        extracted_evidence,
+    )
     record["text_evidence"] = build_text_evidence(record)
     return record
 

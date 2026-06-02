@@ -11,9 +11,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PIPELINE_DIR = REPO_ROOT / "pipeline"
 sys.path.insert(0, PIPELINE_DIR.as_posix())
 
-from privte_pipeline.evidence import build_evidence_record, build_report  # noqa: E402
-from privte_pipeline.extractors import build_extractor  # noqa: E402
-from privte_pipeline.io import read_jsonl, write_json, write_jsonl, write_text_files  # noqa: E402
+from privte_pipeline.run import print_run_result, write_evidence_run  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
@@ -28,7 +26,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("mvp/outputs/6_1data_simple_video_quality"),
+        default=Path("outputs/quickstart/6_1data_simple_video_quality"),
     )
     parser.add_argument("--subset-name", default="6.1data")
     parser.add_argument(
@@ -52,42 +50,20 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    if not args.person_manifest.exists():
-        raise SystemExit(f"Person manifest not found: {args.person_manifest}")
-
     extractor_config = {
         "max_metadata_clips": 0 if args.metadata_all else args.max_metadata_clips,
         "disable_opencv": args.disable_opencv,
     }
-    extractor = build_extractor("simple_video_quality", extractor_config)
-    person_records = read_jsonl(args.person_manifest)
-    evidence_records = [
-        build_evidence_record(person_record, args.subset_name, extractor)
-        for person_record in person_records
-    ]
-
-    subset_slug = args.subset_name.replace(".", "_").replace("-", "_")
-    output_jsonl = args.output_dir / f"simple_mvp_evidence.{subset_slug}.jsonl"
-    output_report = args.output_dir / f"simple_mvp_report.{subset_slug}.json"
-    text_dir = args.output_dir / "evidence_text"
-
-    write_jsonl(output_jsonl, evidence_records)
-    write_json(
-        output_report,
-        build_report(
-            evidence_records,
-            subset_name=args.subset_name,
-            output_jsonl=output_jsonl,
-            extractor=extractor,
-        ),
+    result = write_evidence_run(
+        person_manifest=args.person_manifest,
+        output_dir=args.output_dir,
+        subset_name=args.subset_name,
+        extractor_name="simple_video_quality",
+        extractor_config=extractor_config,
+        evidence_stem="simple_mvp_evidence",
+        report_stem="simple_mvp_report",
     )
-    write_text_files(evidence_records, text_dir)
-
-    print(f"extractor={extractor.name}:{extractor.version}")
-    print(f"output_jsonl={output_jsonl}")
-    print(f"output_report={output_report}")
-    print(f"text_dir={text_dir}")
-    print(f"records={len(evidence_records)}")
+    print_run_result(result)
     return 0
 
 
