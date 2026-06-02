@@ -1,0 +1,40 @@
+样本编号: evidence_internal_p000001
+输入类型: text-only PriVTE evidence
+任务定位: 基于可观察代理证据的未成年人数字设备使用风险筛查，不是诊断。
+
+模态可用性:
+- 视频片段: yes, 数量 51
+- 心率记录: yes, 非空片段 51
+- 应用使用记录: yes, 记录数 51
+- 问卷: no, 不作为 text-only 视频代理输入证据
+
+视频代理证据:
+- 视频片段可用率: 1.0
+- 视频文件数量: 51
+- 视频文件大小分布: 5-20MB=51
+- 抽样容器元数据可读率: 1.0
+- 视频时长分布: 10-30s=1, 30-90s=15
+- 视频分辨率分布: vga_to_720p=16
+- 视频帧率分布: unknown=16
+- LLM 输入不包含视频、图像、音频或关键帧。
+
+质量与缺失信息:
+- 质量评估状态: computed_by_simple_video_quality
+- 已计算质量字段: video_presence_ratio, clip_size_distribution, container_readability_ratio, duration_distribution, resolution_distribution, fps_distribution
+- 缺失字段: face_visible_ratio, hands_visible_ratio, device_visible_ratio, screen_attention, touch_or_swipe_frequency, posture_features, blink_or_facial_action_features
+
+隐私处理:
+- raw video included: False
+- raw images included: False
+- questionnaire answers included: False
+- exact heart-rate values included: False
+- app names included: False
+
+限制:
+- simple_video_quality_only
+- container_metadata_not_behavior
+- no_questionnaire_input
+- no_exact_heart_rate_input
+- no_app_name_input
+- not_for_diagnosis
+- requires_future_privte_behavior_feature_extraction
