@@ -18,6 +18,11 @@
   "frames_per_clip": 12,
   "analysis_width": 768,
   "max_event_windows": 8,
+  "max_hand_event_windows": 4,
+  "max_device_event_windows": 5,
+  "max_posture_event_windows": 2,
+  "max_global_event_windows": 2,
+  "max_stable_event_windows": 1,
   "min_brightness": 35.0,
   "max_brightness": 225.0,
   "min_blur_score": 15.0,
@@ -37,8 +42,8 @@
   "screen_min_aspect": 0.3,
   "screen_max_aspect": 3.5,
   "motion_spike_multiplier": 1.8,
-  "motion_spike_delta": 8.0,
-  "motion_min_spike_threshold": 18.0,
+  "motion_spike_delta": 4.0,
+  "motion_min_spike_threshold": 8.0,
   "hand_motion_min_spike_threshold": 0.06,
   "pose_motion_min_spike_threshold": 0.04
 }

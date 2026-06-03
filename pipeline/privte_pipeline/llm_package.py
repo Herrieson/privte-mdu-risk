@@ -334,6 +334,10 @@ def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -
     active_interaction = _bin(
         features.get("active_hand_device_interaction_proxy_ratio_bin")
     )
+    device_activity = _bin(features.get("device_region_activity_proxy_ratio_bin"))
+    device_activity_windows = _bin(
+        features.get("device_region_activity_proxy_count_bin")
+    )
     repetitive_ops = _bin(features.get("repetitive_operation_proxy_count_bin"))
     face_context = _bin(features.get("face_device_cooccurrence_ratio_bin"))
     head_device = _bin(features.get("face_device_alignment_proxy_ratio_bin"))
@@ -386,7 +390,10 @@ def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -
         observations,
         signal="hand_device_interaction_proxy",
         value=active_interaction,
-        interpretation=f"由手部可见性={hand_visibility}、手-设备接近={hand_device} 和设备区域运动综合得到。",
+        interpretation=(
+            f"由手部可见性={hand_visibility}、手-设备接近={hand_device} "
+            f"和设备区域活动={device_activity} 综合得到。"
+        ),
         risk_relevance="较高值可作为操作、触摸样动作或滑动样动作活跃的代理线索。",
         quality=overall_quality,
     )
@@ -396,6 +403,27 @@ def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -
         supporting.append("手-设备交互代理为中等，存在一定操作线索。")
     elif active_interaction in {"none", "low"}:
         uncertainty.append("手-设备交互代理较弱，操作活跃性证据有限。")
+
+    _append_observation(
+        observations,
+        signal="device_region_activity_proxy",
+        value=device_activity,
+        interpretation=f"由设备区域短间隔局部运动突增得到，窗口数量={device_activity_windows}。",
+        risk_relevance=(
+            "可作为设备附近滑动、点击、触摸样动作或屏幕区域变化的弱代理；"
+            "不识别具体内容、app 或真实触摸事件。"
+        ),
+        quality=overall_quality,
+    )
+    if device_activity in {"high", "very_high"} or device_activity_windows in {
+        "high",
+        "very_high",
+    }:
+        supporting.append("设备区域活动代理较高，支持存在设备附近活跃交互线索。")
+    elif device_activity == "medium" or device_activity_windows == "medium":
+        supporting.append("设备区域活动代理为中等，提示存在一定设备附近活动线索。")
+    elif device_activity in {"none", "low"} and device_activity_windows in {"none", "low"}:
+        uncertainty.append("设备区域活动代理较弱，不能充分支持活跃操作线索。")
 
     _append_observation(
         observations,
@@ -458,7 +486,11 @@ def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -
         [
             device_visibility in {"medium", "high", "very_high"},
             stable_engagement in {"medium", "high", "very_high"},
+            max_stable in {"medium", "high"},
             active_interaction in {"medium", "high", "very_high"},
+            device_activity in {"medium", "high", "very_high"}
+            or device_activity_windows in {"medium", "high", "very_high"},
+            face_context in {"medium", "high", "very_high"},
             repetitive_ops in {"medium", "high"},
         ]
     )
@@ -466,15 +498,29 @@ def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -
         [
             device_visibility in {"high", "very_high"},
             stable_engagement in {"high", "very_high"},
+            max_stable == "high",
             active_interaction in {"high", "very_high"},
+            device_activity in {"high", "very_high"}
+            or device_activity_windows in {"high", "very_high"},
             repetitive_ops == "high",
         ]
     )
     evidence_strength = "weak_video_proxy_signal"
-    if overall_quality == "usable_behavior_frame_quality" and moderate_signal_count >= 3:
+    usable_quality = overall_quality == "usable_behavior_frame_quality"
+    partial_quality = overall_quality == "partial_behavior_frame_quality"
+    interaction_available = (
+        active_interaction in {"medium", "high", "very_high"}
+        or device_activity in {"medium", "high", "very_high"}
+        or device_activity_windows in {"medium", "high", "very_high"}
+    )
+    if usable_quality and moderate_signal_count >= 2:
+        evidence_strength = "mild_video_proxy_signal"
+    if usable_quality and moderate_signal_count >= 4 and interaction_available:
         evidence_strength = "moderate_video_proxy_signal"
-    if overall_quality == "usable_behavior_frame_quality" and strong_signal_count >= 4:
+    if usable_quality and moderate_signal_count >= 5 and strong_signal_count >= 4:
         evidence_strength = "strong_video_proxy_signal"
+    if partial_quality and moderate_signal_count >= 4 and interaction_available:
+        evidence_strength = "mild_video_proxy_signal"
     if overall_quality in {
         "behavior_frame_analysis_unavailable",
         "insufficient_video",

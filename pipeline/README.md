@@ -132,9 +132,9 @@ outputs/pipeline/<run>/evidence_text/*.txt
 - uses MediaPipe Hands, Face Mesh, and Pose when dependencies are installed;
 - uses Ultralytics YOLO for device-like object detection when available, with a
   screen-like heuristic fallback;
-- extracts device observability, hand-device interaction proxy, repetitive
-  operation proxy, face-device context observability, stable engagement proxy,
-  and posture/context change proxy;
+- extracts device observability, short-interval device-region activity,
+  hand-device interaction proxy, repetitive operation proxy, face-device context
+  observability, stable engagement proxy, and posture/context change proxy;
 - emits only coarse ratios, bins, event types, quality summaries, and
   LLM-ready behavior observations;
 - requires the configured MediaPipe `.task` model files for real behavior

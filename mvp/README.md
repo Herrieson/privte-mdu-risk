@@ -134,7 +134,9 @@ raw video
   -> local frame sampling
   -> YOLO device detection with heuristic fallback
   -> MediaPipe hand / face / pose analysis
+  -> short-interval local motion around sampled frames
   -> hand-device interaction proxy
+  -> device-region activity proxy
   -> stable screen engagement proxy
   -> posture/context change proxy
   -> privacy-filtered LLM evidence package

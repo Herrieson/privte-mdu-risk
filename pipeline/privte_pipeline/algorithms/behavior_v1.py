@@ -58,6 +58,28 @@ def count_bin(value: int) -> str:
     return "high"
 
 
+def activity_ratio_bin(value: float | None) -> str:
+    if value is None:
+        return "unknown"
+    if value <= 0:
+        return "none"
+    if value < 0.05:
+        return "low"
+    if value < 0.15:
+        return "medium"
+    if value < 0.3:
+        return "high"
+    return "very_high"
+
+
+def density_count_bin(value: int, total: int) -> str:
+    if value <= 0:
+        return "none"
+    if total <= 0:
+        return count_bin(value)
+    return activity_ratio_bin(safe_ratio(value, total))
+
+
 def level_bin(value: float | None, *, low: float, medium: float, high: float) -> str:
     if value is None:
         return "unknown"
@@ -479,7 +501,6 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
         frames_per_clip = int(self.config.get("frames_per_clip", 12))
         capture = cv2.VideoCapture(path.as_posix())
         result = {"opened": False, "readable": False, "frames": []}
-        previous_gray = None
         previous_hand_center = None
         previous_pose_center = None
         try:
@@ -495,10 +516,15 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
                 ok, frame = capture.read()
                 if not ok:
                     continue
+                ok_motion, motion_frame = capture.read()
+                if not ok_motion:
+                    motion_frame = None
                 frame = self._resize_frame(frame, cv2)
+                if motion_frame is not None:
+                    motion_frame = self._resize_frame(motion_frame, cv2)
                 record = self._analyze_frame(
                     frame=frame,
-                    previous_gray=previous_gray,
+                    motion_frame=motion_frame,
                     previous_hand_center=previous_hand_center,
                     previous_pose_center=previous_pose_center,
                     cv2=cv2,
@@ -508,14 +534,12 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
                     frame_order=frame_order,
                 )
                 result["frames"].append(record)
-                previous_gray = record["_gray"]
                 previous_hand_center = record.get("_hand_center")
                 previous_pose_center = record.get("_pose_center")
             result["readable"] = bool(result["frames"])
         finally:
             capture.release()
         for record in result["frames"]:
-            record.pop("_gray", None)
             record.pop("_hand_center", None)
             record.pop("_pose_center", None)
         return result
@@ -533,7 +557,7 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
         self,
         *,
         frame: Any,
-        previous_gray: Any | None,
+        motion_frame: Any | None,
         previous_hand_center: tuple[float, float] | None,
         previous_pose_center: tuple[float, float] | None,
         cv2: Any,
@@ -573,8 +597,9 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
 
         global_motion = None
         near_device_motion = None
-        if previous_gray is not None and previous_gray.shape == gray.shape:
-            diff = cv2.absdiff(gray, previous_gray)
+        if motion_frame is not None and motion_frame.shape[:2] == frame.shape[:2]:
+            motion_gray = cv2.cvtColor(motion_frame, cv2.COLOR_BGR2GRAY)
+            diff = cv2.absdiff(gray, motion_gray)
             global_motion = float(diff.mean())
             if device["box"] is not None:
                 x, y, box_width, box_height = device["box"]
@@ -615,7 +640,6 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             ),
             "hand_motion": round(hand_motion, 4) if hand_motion is not None else None,
             "pose_motion": round(pose_motion, 4) if pose_motion is not None else None,
-            "_gray": gray,
             "_hand_center": hands["center"],
             "_pose_center": pose["center"],
         }
@@ -946,14 +970,17 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             )
             for frame in frame_records
         ]
-        active_interaction_flags = [
-            frame["hand_device_proximity"]
-            or (
+        device_region_activity_flags = [
+            (
                 frame["device_visible"]
                 and frame["near_device_motion"] is not None
                 and frame["near_device_motion"] >= near_motion_threshold
             )
             for frame in frame_records
+        ]
+        active_interaction_flags = [
+            frame["hand_device_proximity"] or device_region_activity_flags[index]
+            for index, frame in enumerate(frame_records)
         ]
         repetitive_operation_count = sum(
             1
@@ -962,21 +989,13 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             and frame["hand_motion"] is not None
             and frame["hand_motion"] >= hand_motion_threshold
         )
-        device_motion_burst_count = sum(
-            1
-            for frame in frame_records
-            if frame["device_visible"]
-            and frame["near_device_motion"] is not None
-            and frame["near_device_motion"] >= near_motion_threshold
-        )
+        device_motion_burst_count = sum(device_region_activity_flags)
         posture_change_count = sum(
             1
             for frame in frame_records
-            if (
-                frame["pose_motion"] is not None
-                and frame["pose_motion"] >= pose_motion_threshold
-            )
-            or (
+            if frame["pose_motion"] is not None
+            and frame["pose_motion"] >= pose_motion_threshold
+            and (
                 frame["global_motion"] is not None
                 and frame["global_motion"] >= global_motion_threshold
             )
@@ -986,6 +1005,10 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
         readable_video_ratio = safe_ratio(readable_video_files, selected_video_files)
         stable_engagement_ratio = safe_ratio(sum(stable_flags), total_frames)
         active_interaction_ratio = safe_ratio(sum(active_interaction_flags), total_frames)
+        device_region_activity_ratio = safe_ratio(
+            sum(device_region_activity_flags),
+            total_frames,
+        )
         max_stable_run = max_true_run(stable_flags)
 
         behavior_features = {
@@ -1020,10 +1043,22 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             "active_hand_device_interaction_proxy_ratio_bin": ratio_bin(
                 active_interaction_ratio
             ),
+            "device_region_activity_proxy_ratio": device_region_activity_ratio,
+            "device_region_activity_proxy_ratio_bin": activity_ratio_bin(
+                device_region_activity_ratio
+            ),
             "repetitive_operation_proxy_count": repetitive_operation_count,
             "repetitive_operation_proxy_count_bin": count_bin(repetitive_operation_count),
+            "device_region_activity_proxy_count": device_motion_burst_count,
+            "device_region_activity_proxy_count_bin": density_count_bin(
+                device_motion_burst_count,
+                total_frames,
+            ),
             "device_motion_burst_count": device_motion_burst_count,
-            "device_motion_burst_count_bin": count_bin(device_motion_burst_count),
+            "device_motion_burst_count_bin": density_count_bin(
+                device_motion_burst_count,
+                total_frames,
+            ),
             "posture_or_context_change_count": posture_change_count,
             "posture_or_context_change_count_bin": count_bin(posture_change_count),
             "max_continuous_stable_engagement_frames": max_stable_run,
@@ -1124,6 +1159,7 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
                     "pose_visible_ratio",
                     "stable_screen_engagement_proxy_ratio",
                     "active_hand_device_interaction_proxy_ratio",
+                    "device_region_activity_proxy_ratio",
                 ],
                 "missing_quality_fields": [
                     "validated_touch_labels",
@@ -1203,8 +1239,7 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             elif (
                 frame["pose_motion"] is not None
                 and frame["pose_motion"] >= pose_motion_threshold
-            ) or (
-                frame["global_motion"] is not None
+                and frame["global_motion"] is not None
                 and frame["global_motion"] >= global_motion_threshold
             ):
                 score = (frame["pose_motion"] or 0) * 100 + (frame["global_motion"] or 0)
@@ -1215,6 +1250,19 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
                         "strength": "medium",
                         "quality": "usable" if frame["quality_usable"] else "partial",
                         "_score": score,
+                    }
+                )
+            elif (
+                frame["global_motion"] is not None
+                and frame["global_motion"] >= global_motion_threshold
+            ):
+                candidates.append(
+                    {
+                        "relative_position": frame["relative_position"],
+                        "event_type": "global_motion_burst",
+                        "strength": "medium",
+                        "quality": "usable" if frame["quality_usable"] else "partial",
+                        "_score": frame["global_motion"],
                     }
                 )
 
@@ -1230,7 +1278,32 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             )
 
         candidates.sort(key=lambda item: item["_score"], reverse=True)
-        events = candidates[:max_event_windows]
+        max_by_type = {
+            "hand_device_interaction_burst": int(
+                self.config.get("max_hand_event_windows", 4)
+            ),
+            "device_region_motion_burst": int(
+                self.config.get("max_device_event_windows", 5)
+            ),
+            "posture_or_context_motion_burst": int(
+                self.config.get("max_posture_event_windows", 2)
+            ),
+            "global_motion_burst": int(self.config.get("max_global_event_windows", 2)),
+            "stable_screen_engagement_proxy": int(
+                self.config.get("max_stable_event_windows", 1)
+            ),
+        }
+        selected = []
+        selected_counts: Counter[str] = Counter()
+        for candidate in candidates:
+            event_type = candidate["event_type"]
+            if selected_counts[event_type] >= max_by_type.get(event_type, max_event_windows):
+                continue
+            selected.append(candidate)
+            selected_counts[event_type] += 1
+            if len(selected) >= max_event_windows:
+                break
+        events = selected
         return [{key: value for key, value in event.items() if key != "_score"} for event in events]
 
     def _overall_quality(
@@ -1264,6 +1337,7 @@ class PriVTEBehaviorV1Extractor(EvidenceExtractor):
             f"手-设备接近代理: {features['hand_device_proximity_ratio_bin']}",
             f"稳定屏幕参与代理: {features['stable_screen_engagement_proxy_ratio_bin']}",
             f"活跃手-设备交互代理: {features['active_hand_device_interaction_proxy_ratio_bin']}",
+            f"设备区域活动代理: {features['device_region_activity_proxy_ratio_bin']}",
             f"重复操作代理窗口数量: {features['repetitive_operation_proxy_count_bin']}",
             f"人脸-设备上下文可观察性: {features['face_device_cooccurrence_ratio_bin']}",
             f"姿态/场景变化代理: {features['posture_or_context_change_count_bin']}",
