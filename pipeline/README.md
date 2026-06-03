@@ -74,6 +74,17 @@ uv run python pipeline/build_evidence.py \
   --extractor-config configs/algorithms/privte_flowlite.v0.json
 ```
 
+PriVTE-Behavior v1 extractor:
+
+```bash
+uv run python pipeline/build_evidence.py \
+  --person-manifest data/manifests/internal_person_manifest.6_1data.v0.labeled.jsonl \
+  --output-dir outputs/pipeline/6_1data_privte_behavior_v1 \
+  --subset-name 6.1data \
+  --extractor privte_behavior_v1 \
+  --extractor-config configs/algorithms/privte_behavior.v1.json
+```
+
 ## Outputs
 
 ```text
@@ -115,6 +126,24 @@ outputs/pipeline/<run>/evidence_text/*.txt
   high-dimensional landmarks, app names, questionnaire answers, or exact
   heart-rate values.
 
+`privte_behavior_v1` in `privte_pipeline/algorithms/behavior_v1.py`
+
+- uses OpenCV for local frame decoding and motion proxies;
+- uses MediaPipe Hands, Face Mesh, and Pose when dependencies are installed;
+- uses Ultralytics YOLO for device-like object detection when available, with a
+  screen-like heuristic fallback;
+- extracts device observability, hand-device interaction proxy, repetitive
+  operation proxy, face-device context observability, stable engagement proxy,
+  and posture/context change proxy;
+- emits only coarse ratios, bins, event types, quality summaries, and
+  LLM-ready behavior observations;
+- requires the configured MediaPipe `.task` model files for real behavior
+  output; metadata fallback is only for plumbing checks and should produce
+  insufficient-evidence text;
+- does not output frames, crops, coordinates, masks, OCR/ASR, face embeddings,
+  high-dimensional landmarks, app names, questionnaire answers, or exact
+  heart-rate values.
+
 ## Evidence Contract
 
 Every extractor should return the same top-level contract:
@@ -141,6 +170,7 @@ This lets later work replace only the extractor with a fuller PriVTE algorithm:
 ```text
 simple_video_quality    # current runnable algorithm baseline
 privte_flowlite         # OpenCV frame-level PriVTE protocol MVP
+privte_behavior_v1      # MediaPipe + YOLO practical behavior proxy extractor
 video_proxy_v0          # stronger face/hand/device visibility + interaction proxies
 privte_v1               # key-window + ROI + proxy-feature extractor
 ```

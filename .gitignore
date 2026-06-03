@@ -218,5 +218,10 @@ __marimo__/
 .streamlit/secrets.toml
 
 # Data
-data/
 
+# Local model assets
+models/mediapipe/*.task
+!models/mediapipe/.gitkeep
+models/yolo/*.pt
+!models/yolo/.gitkeep
+data/

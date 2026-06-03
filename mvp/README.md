@@ -123,3 +123,57 @@ answers, exact heart-rate values, app names, or labels.
 - The text-only input can be generated without exposing raw videos or frames.
 - Later work only needs to replace the extractor with a stronger PriVTE visual
   proxy algorithm.
+
+## PriVTE-Behavior v1
+
+`PriVTE-Behavior v1` is the practical stronger algorithm profile. It uses
+off-the-shelf local CV models when installed:
+
+```text
+raw video
+  -> local frame sampling
+  -> YOLO device detection with heuristic fallback
+  -> MediaPipe hand / face / pose analysis
+  -> hand-device interaction proxy
+  -> stable screen engagement proxy
+  -> posture/context change proxy
+  -> privacy-filtered LLM evidence package
+```
+
+Run:
+
+```bash
+uv run python mvp/run_behavior_v1_mvp.py
+```
+
+Useful options:
+
+```bash
+uv run python mvp/run_behavior_v1_mvp.py \
+  --max-video-clips 16 \
+  --frames-per-clip 12
+```
+
+Use `--disable-yolo` to use MediaPipe plus heuristic device/screen detection.
+Real Behavior v1 output requires the configured MediaPipe `.task` model files
+under `models/mediapipe/`. Use `--allow-metadata-fallback` only for
+dependency-free plumbing checks; that mode intentionally emits
+insufficient-evidence text instead of behavior proxy features.
+
+The default config is:
+
+```text
+configs/algorithms/privte_behavior.v1.json
+```
+
+Outputs:
+
+```text
+outputs/quickstart/6_1data_privte_behavior_v1/behavior_v1_mvp_evidence.6_1data.jsonl
+outputs/quickstart/6_1data_privte_behavior_v1/behavior_v1_mvp_report.6_1data.json
+outputs/quickstart/6_1data_privte_behavior_v1/evidence_text/*.txt
+```
+
+This version still does not output frames, crops, coordinates, masks, OCR/ASR,
+face embeddings, landmark sequences, questionnaire answers, exact heart-rate
+values, app names, raw paths, or exact timestamps.

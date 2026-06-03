@@ -43,3 +43,12 @@ To add a new algorithm:
 Do not output raw videos, frames, crops, coordinates, OCR/ASR, face embeddings,
 high-dimensional landmarks, app names, questionnaire answers, exact heart-rate
 values, raw paths, or exact timestamps.
+
+Current algorithm modules:
+
+```text
+manifest_only.py          # schema/data-flow baseline
+simple_video_quality.py   # container metadata baseline
+flowlite.py               # OpenCV heuristic frame-level proxy extractor
+behavior_v1.py            # MediaPipe + YOLO practical behavior proxy extractor
+```

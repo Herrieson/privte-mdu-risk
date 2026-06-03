@@ -27,6 +27,12 @@ def render_dict_items(values: dict[str, Any]) -> str:
     return ", ".join(f"{key}={value}" for key, value in values.items())
 
 
+def render_optional(value: Any) -> str:
+    if value is None:
+        return "unknown"
+    return str(value)
+
+
 def build_text_evidence(record: dict[str, Any]) -> str:
     package = record["llm_evidence_package"]
     task = package["task"]
@@ -62,8 +68,9 @@ def build_text_evidence(record: dict[str, Any]) -> str:
             "观察范围:",
             "- 模型输入模态: " + ", ".join(scope["input_modalities_used_for_model"]),
             f"- 视频片段数量: {scope['video_clips_available']}",
-            f"- 已抽样分析视频片段: {scope.get('selected_video_clips_analyzed')}",
-            f"- 已抽样分析帧数: {scope.get('sampled_frame_count')}",
+            "- 已抽样分析视频片段: "
+            + render_optional(scope.get("selected_video_clips_analyzed")),
+            "- 已抽样分析帧数: " + render_optional(scope.get("sampled_frame_count")),
             "- 覆盖位置计数: "
             + render_dict_items(scope.get("coverage_relative_position_counts", {})),
             f"- 证据质量总评: {scope['quality_overall']}",

@@ -8,6 +8,7 @@ algorithm implementations do not accumulate here.
 from __future__ import annotations
 
 from .algorithms import available_extractors, build_extractor
+from .algorithms.behavior_v1 import PriVTEBehaviorV1Extractor
 from .algorithms.common import (
     collect_clips,
     count_available,
@@ -32,6 +33,7 @@ __all__ = [
     "ManifestOnlyExtractor",
     "SimpleVideoQualityExtractor",
     "PriVTEFlowLiteExtractor",
+    "PriVTEBehaviorV1Extractor",
     "available_extractors",
     "build_extractor",
     "collect_clips",

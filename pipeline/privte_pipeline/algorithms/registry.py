@@ -5,6 +5,7 @@ from __future__ import annotations
 from typing import Any
 
 from ..core import EvidenceExtractor
+from .behavior_v1 import PriVTEBehaviorV1Extractor
 from .flowlite import PriVTEFlowLiteExtractor
 from .manifest_only import ManifestOnlyExtractor
 from .simple_video_quality import SimpleVideoQualityExtractor
@@ -38,5 +39,6 @@ for _extractor_cls in (
     ManifestOnlyExtractor,
     SimpleVideoQualityExtractor,
     PriVTEFlowLiteExtractor,
+    PriVTEBehaviorV1Extractor,
 ):
     register_extractor(_extractor_cls)

@@ -29,16 +29,34 @@ def _event_phrase(event_type: str) -> str:
         "near_device_motion_burst": "设备附近运动突增",
         "global_motion_burst": "全局运动突增",
         "stable_screen_viewing_proxy": "稳定屏幕观看代理窗口",
+        "hand_device_interaction_burst": "手-设备交互突增",
+        "device_region_motion_burst": "设备区域运动突增",
+        "posture_or_context_motion_burst": "姿态或场景运动突增",
+        "stable_screen_engagement_proxy": "稳定屏幕参与代理窗口",
     }
     return phrases.get(event_type, event_type)
 
 
 def _quality_recommendation(overall: str) -> str:
-    if overall in {"insufficient_video", "frame_analysis_unavailable", "low_frame_quality"}:
+    if overall in {
+        "insufficient_video",
+        "frame_analysis_unavailable",
+        "behavior_frame_analysis_unavailable",
+        "low_frame_quality",
+        "low_behavior_frame_quality",
+    }:
         return "证据质量不足，模型应优先考虑 insufficient_evidence 或人工复核。"
-    if overall in {"partial_frame_quality", "file_level_quality_only"}:
+    if overall in {
+        "partial_frame_quality",
+        "partial_behavior_frame_quality",
+        "file_level_quality_only",
+    }:
         return "证据质量部分可用，模型应降低置信度并更积极触发人工复核。"
-    if overall in {"usable_frame_quality", "usable_container_quality"}:
+    if overall in {
+        "usable_frame_quality",
+        "usable_behavior_frame_quality",
+        "usable_container_quality",
+    }:
         return "证据质量可用，但结论仍只能是基于视频代理证据的风险筛查。"
     return "证据质量未知，模型应谨慎判断并说明不确定性。"
 
@@ -303,6 +321,181 @@ def _build_non_behavior_package(video: dict[str, Any], quality: dict[str, Any]) 
     }
 
 
+def _build_behavior_v1_package(video: dict[str, Any], quality: dict[str, Any]) -> dict[str, Any]:
+    features = video.get("behavior_v1_features", {})
+    key_windows = video.get("key_window_summary", {})
+    event_windows = video.get("event_windows", [])
+    overall_quality = _bin(quality.get("overall"))
+
+    device_visibility = _bin(features.get("device_visible_ratio_bin"))
+    hand_visibility = _bin(features.get("hand_visible_ratio_bin"))
+    hand_device = _bin(features.get("hand_device_proximity_ratio_bin"))
+    stable_engagement = _bin(features.get("stable_screen_engagement_proxy_ratio_bin"))
+    active_interaction = _bin(
+        features.get("active_hand_device_interaction_proxy_ratio_bin")
+    )
+    repetitive_ops = _bin(features.get("repetitive_operation_proxy_count_bin"))
+    face_context = _bin(features.get("face_device_cooccurrence_ratio_bin"))
+    head_device = _bin(features.get("face_device_alignment_proxy_ratio_bin"))
+    posture_change = _bin(features.get("posture_or_context_change_count_bin"))
+    max_stable = _bin(features.get("max_continuous_stable_engagement_bin"))
+
+    observations: list[dict[str, Any]] = []
+    supporting: list[str] = []
+    uncertainty: list[str] = []
+
+    if overall_quality not in {"usable_behavior_frame_quality", "usable_frame_quality"}:
+        uncertainty.append(_quality_recommendation(overall_quality))
+
+    _append_observation(
+        observations,
+        signal="device_use_observability",
+        value=device_visibility,
+        interpretation="由设备/屏幕检测或备用屏幕样区域检测得到的可观察性水平。",
+        risk_relevance="这是视频中数字设备使用行为能否被观察的基础条件。",
+        quality=overall_quality,
+    )
+    if device_visibility in {"high", "very_high"}:
+        supporting.append("设备/屏幕可观察性较高，视频中存在较充分的设备使用观察窗口。")
+    elif device_visibility in {"none", "low"}:
+        uncertainty.append("设备/屏幕可观察性较低，数字设备使用行为证据不足。")
+
+    _append_observation(
+        observations,
+        signal="sustained_screen_engagement_proxy",
+        value=stable_engagement,
+        interpretation="设备可见、质量可用且行为上下文相对稳定的聚合比例。",
+        risk_relevance="较高值可作为持续屏幕参与代理证据，不能等同于成瘾或精确注意力。",
+        quality=overall_quality,
+    )
+    if stable_engagement in {"high", "very_high"}:
+        supporting.append("稳定屏幕参与代理较高，支持存在较持续的屏幕参与线索。")
+    elif stable_engagement == "medium":
+        supporting.append("稳定屏幕参与代理为中等，提示存在一定屏幕参与但强度有限。")
+
+    _append_observation(
+        observations,
+        signal="max_continuous_stable_engagement_proxy",
+        value=max_stable,
+        interpretation="抽样帧序列中连续稳定屏幕参与代理的最长片段。",
+        risk_relevance="用于补充持续性证据；该值受抽样策略影响，不是精确时长。",
+        quality=overall_quality,
+    )
+
+    _append_observation(
+        observations,
+        signal="hand_device_interaction_proxy",
+        value=active_interaction,
+        interpretation=f"由手部可见性={hand_visibility}、手-设备接近={hand_device} 和设备区域运动综合得到。",
+        risk_relevance="较高值可作为操作、触摸样动作或滑动样动作活跃的代理线索。",
+        quality=overall_quality,
+    )
+    if active_interaction in {"high", "very_high"}:
+        supporting.append("手-设备交互代理较高，提示存在较活跃的设备操作线索。")
+    elif active_interaction == "medium":
+        supporting.append("手-设备交互代理为中等，存在一定操作线索。")
+    elif active_interaction in {"none", "low"}:
+        uncertainty.append("手-设备交互代理较弱，操作活跃性证据有限。")
+
+    _append_observation(
+        observations,
+        signal="repetitive_operation_proxy",
+        value=repetitive_ops,
+        interpretation="由手部接近设备且手部运动突增的窗口数量得到。",
+        risk_relevance="较多窗口可提示重复操作或频繁交互，但不是已验证的点击/滑动标签。",
+        quality=overall_quality,
+    )
+    if repetitive_ops == "high":
+        supporting.append("重复操作代理窗口较多，支持频繁交互或重复操作线索。")
+    elif repetitive_ops in {"none", "low"}:
+        uncertainty.append("重复操作代理窗口较少，重复操作证据不足。")
+
+    _append_observation(
+        observations,
+        signal="face_device_context_observability",
+        value=face_context,
+        interpretation=f"由人脸-设备共现={face_context} 和头部/设备相对上下文={head_device} 得到。",
+        risk_relevance="该信号表示面向屏幕相关线索是否可观察；不是精确 gaze。",
+        quality=overall_quality,
+    )
+    if face_context in {"none", "low"}:
+        uncertainty.append("人脸-设备上下文较弱，不能可靠判断面向屏幕或凝视状态。")
+
+    _append_observation(
+        observations,
+        signal="posture_or_context_change_proxy",
+        value=posture_change,
+        interpretation="由姿态中心变化和全局运动突增聚合得到。",
+        risk_relevance="可作为姿态变化、离开/返回或拍摄场景扰动的弱代理线索。",
+        quality=overall_quality,
+    )
+
+    _append_observation(
+        observations,
+        signal="affect_fatigue_or_gaze_proxy",
+        value="not_validated_in_behavior_v1",
+        interpretation="本版未输出经验证的情绪、疲劳或精确凝视证据。",
+        risk_relevance="不能根据本输出判断主观渴求、挫败、疲劳、情绪或成瘾状态。",
+        quality=overall_quality,
+    )
+    uncertainty.append("本版手-设备交互、头部朝向和姿态变化仍是代理证据，不是临床或主观状态标签。")
+
+    rendered_events = []
+    for index, event in enumerate(event_windows, start=1):
+        event_type = _bin(event.get("event_type"))
+        rendered_events.append(
+            {
+                "window_id": f"event_{index:02d}",
+                "relative_position": _bin(event.get("relative_position")),
+                "observation": _event_phrase(event_type),
+                "strength": _bin(event.get("strength")),
+                "quality": _bin(event.get("quality")),
+                "risk_relevance": "用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。",
+            }
+        )
+
+    moderate_signal_count = sum(
+        [
+            device_visibility in {"medium", "high", "very_high"},
+            stable_engagement in {"medium", "high", "very_high"},
+            active_interaction in {"medium", "high", "very_high"},
+            repetitive_ops in {"medium", "high"},
+        ]
+    )
+    strong_signal_count = sum(
+        [
+            device_visibility in {"high", "very_high"},
+            stable_engagement in {"high", "very_high"},
+            active_interaction in {"high", "very_high"},
+            repetitive_ops == "high",
+        ]
+    )
+    evidence_strength = "weak_video_proxy_signal"
+    if overall_quality == "usable_behavior_frame_quality" and moderate_signal_count >= 3:
+        evidence_strength = "moderate_video_proxy_signal"
+    if overall_quality == "usable_behavior_frame_quality" and strong_signal_count >= 4:
+        evidence_strength = "strong_video_proxy_signal"
+    if overall_quality in {
+        "behavior_frame_analysis_unavailable",
+        "insufficient_video",
+        "low_behavior_frame_quality",
+    }:
+        evidence_strength = "insufficient_video_proxy_signal"
+
+    return {
+        "behavior_observations": observations,
+        "key_event_windows": rendered_events,
+        "key_event_window_counts": key_windows.get("event_window_types", {}),
+        "risk_relevant_synthesis": {
+            "video_proxy_signal_strength": evidence_strength,
+            "signals_supporting_closer_review": supporting
+            or ["未形成明确支持风险升高的高质量视频代理证据。"],
+            "signals_reducing_certainty": uncertainty,
+            "quality_recommendation": _quality_recommendation(overall_quality),
+        },
+    }
+
+
 def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict[str, Any]:
     """Build a label-free evidence package that can be rendered for LLM input."""
 
@@ -311,7 +504,9 @@ def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict
     quality = features["quality_summary"]
     modality = evidence["modality_availability"]
 
-    if video.get("global_features"):
+    if video.get("behavior_v1_features"):
+        behavior_package = _build_behavior_v1_package(video, quality)
+    elif video.get("global_features"):
         behavior_package = _build_flowlite_behavior_package(video, quality)
     else:
         behavior_package = _build_non_behavior_package(video, quality)
