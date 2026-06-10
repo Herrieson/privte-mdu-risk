@@ -76,11 +76,13 @@ outputs/pipeline/<run>/evidence_text/*.txt
   evidence schema;
 - runs local frame sampling from coverage windows;
 - computes lightweight device/screen visibility, face observability,
-  frame-difference motion, interaction-proxy, posture-proxy, and quality fields;
-- emits event windows with relative time periods, proxy evidence, quality
-  metrics, privacy flags, and deterministic text rendering;
-- remains the integration point for stronger hand, gaze, blink, AU, and
-  listener modules.
+  MediaPipe Tasks hand-landmark visibility, FaceMesh visibility, sparse-frame
+  eye-openness proxies, selected facial geometry action proxies, frame-difference
+  motion, interaction-proxy, posture-proxy, and quality fields;
+- emits event windows with relative time periods, compact proxy-evidence fields,
+  quality metrics, privacy flags, and deterministic text rendering;
+- remains the integration point for stronger gaze, blink, AU validation,
+  baseline-window, and class-level listener modules.
 
 Old FlowLite, Behavior, Trace, and simple-video-quality modules were archived
 under `archive/legacy_2026_06_10/methods/`. They are not active extractors.

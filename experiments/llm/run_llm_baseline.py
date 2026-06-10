@@ -28,12 +28,7 @@ RISK_LEVELS = [
 ]
 
 
-SYSTEM_PROMPT = """你是一个严格的 text-only 风险筛查证据综合器。
-你只能使用用户提供的 PriVTE evidence package。该 evidence package 视为本评测样本
-的完整输入，不要推断未呈现的额外模态。不要把行为证据解释为医学诊断、
-心理状态确认或成瘾结论。只有当证据包内部明确显示质量、可见性或行为证据不足时，
-才降低置信度并考虑 insufficient_evidence。missing_information 只填写证据包内部明确
-说明的不足，否则可为空列表。只输出 JSON，不要输出额外解释。"""
+SYSTEM_PROMPT = """你是 text-only 风险筛查证据综合器。只能使用用户提供的 PriVTE evidence JSON；不得推断未呈现信息；不得输出医学诊断、心理状态确认或成瘾结论。只输出 JSON。"""
 
 
 JSON_OUTPUT_INSTRUCTION = {
@@ -178,6 +173,12 @@ def prediction_risk_level(item: dict[str, Any]) -> str | None:
 
 
 def metric_report(items: list[dict[str, Any]]) -> dict[str, Any]:
+    latest_by_sample = {
+        item.get("sample_id"): item
+        for item in items
+        if item.get("sample_id")
+    }
+    items = list(latest_by_sample.values())
     valid_items = [
         item
         for item in items
@@ -245,8 +246,15 @@ def read_existing_predictions(path: Path) -> set[str]:
     with path.open("r", encoding="utf-8") as file:
         for line in file:
             if line.strip():
-                seen.add(json.loads(line).get("sample_id"))
+                item = json.loads(line)
+                if not item.get("error") and prediction_risk_level(item) in RISK_LEVELS:
+                    seen.add(item.get("sample_id"))
     return seen
+
+
+def is_retryable_error(error: Exception) -> bool:
+    message = str(error)
+    return "HTTP 429" in message or "rate limit" in message.lower()
 
 
 def slugify_tag(value: str) -> str:
@@ -330,6 +338,18 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--timeout-sec", type=int, default=120)
     parser.add_argument("--sleep-sec", type=float, default=0.0)
     parser.add_argument(
+        "--max-retries",
+        type=int,
+        default=2,
+        help="Retries per sample for retryable endpoint errors such as HTTP 429.",
+    )
+    parser.add_argument(
+        "--retry-sleep-sec",
+        type=float,
+        default=10.0,
+        help="Base sleep between retry attempts; multiplied by attempt number.",
+    )
+    parser.add_argument(
         "--user-agent",
         default=os.environ.get("LLM_USER_AGENT", "PriVTE-LLM-Baseline/0.1"),
         help="HTTP User-Agent header sent to the OpenAI-compatible endpoint.",
@@ -381,6 +401,8 @@ def main() -> int:
             "max_tokens": args.max_tokens,
             "token_budget_param": token_budget_param,
             "requested_token_budget_param": args.token_budget_param,
+            "max_retries": args.max_retries,
+            "retry_sleep_sec": args.retry_sleep_sec,
             "json_mode": not args.no_json_mode,
             "user_agent": args.user_agent,
             "dry_run": args.dry_run,
@@ -407,27 +429,34 @@ def main() -> int:
             "raw_response": None,
             "error": None,
         }
-        try:
-            response = chat_completion(
-                base_url=args.base_url,
-                api_key=api_key,
-                model=args.model,
-                messages=messages,
-                temperature=args.temperature,
-                max_tokens=args.max_tokens,
-                token_budget_param=token_budget_param,
-                timeout_sec=args.timeout_sec,
-                json_mode=not args.no_json_mode,
-                user_agent=args.user_agent,
-            )
-            content = response["choices"][0]["message"]["content"]
-            prediction, parse_error = parse_json_response(content)
-            output_item["prediction"] = prediction
-            output_item["raw_response"] = content
-            output_item["error"] = parse_error
-            output_item["usage"] = response.get("usage")
-        except Exception as exc:
-            output_item["error"] = str(exc)
+        for attempt in range(args.max_retries + 1):
+            try:
+                response = chat_completion(
+                    base_url=args.base_url,
+                    api_key=api_key,
+                    model=args.model,
+                    messages=messages,
+                    temperature=args.temperature,
+                    max_tokens=args.max_tokens,
+                    token_budget_param=token_budget_param,
+                    timeout_sec=args.timeout_sec,
+                    json_mode=not args.no_json_mode,
+                    user_agent=args.user_agent,
+                )
+                content = response["choices"][0]["message"]["content"]
+                prediction, parse_error = parse_json_response(content)
+                output_item["prediction"] = prediction
+                output_item["raw_response"] = content
+                output_item["error"] = parse_error
+                output_item["usage"] = response.get("usage")
+                output_item["attempts"] = attempt + 1
+                break
+            except Exception as exc:
+                output_item["error"] = str(exc)
+                output_item["attempts"] = attempt + 1
+                if attempt >= args.max_retries or not is_retryable_error(exc):
+                    break
+                time.sleep(args.retry_sleep_sec * (attempt + 1))
         append_jsonl(predictions_path, output_item)
         if args.sleep_sec:
             time.sleep(args.sleep_sec)

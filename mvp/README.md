@@ -36,12 +36,15 @@ raw video
 `privte_preprocessor_v0` is the current runnable MVP for the new method line. It
 performs local frame sampling, coarse relative-time window construction,
 lightweight screen/device-region heuristics, face-observability proxies,
-frame-difference motion proxies, event-window selection, schema validation,
-privacy flags, LLM package generation, and deterministic text rendering.
+MediaPipe Tasks hand-landmark visibility, FaceMesh visibility, sparse-frame eye
+openness proxies, selected facial geometry action proxies, frame-difference
+motion proxies, event-window selection, schema validation, privacy flags, LLM
+package generation, and deterministic text rendering.
 
-This version intentionally keeps hand landmarks, exact eye tracking, blink rate,
-and facial action units as future modules. The emitted evidence marks those
-fields as missing or proxy-only instead of overclaiming.
+This version still treats hand interaction, gaze, blink rate, and facial action
+units as proxy evidence. It does not emit raw frames, crops, coordinates, or
+landmark sequences, and it does not claim exact eye tracking, exact blink
+counting, validated AU classification, emotion recognition, or diagnosis.
 
 Run:
 

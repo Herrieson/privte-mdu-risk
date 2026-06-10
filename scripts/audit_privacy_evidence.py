@@ -64,11 +64,27 @@ def public_payload(record: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def iter_text_values(value: Any) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, dict):
+        texts = []
+        for item in value.values():
+            texts.extend(iter_text_values(item))
+        return texts
+    if isinstance(value, list):
+        texts = []
+        for item in value:
+            texts.extend(iter_text_values(item))
+        return texts
+    return []
+
+
 def audit_text(sample_id: str, payload: dict[str, Any]) -> list[str]:
-    serialized = json.dumps(payload, ensure_ascii=False, sort_keys=True)
+    decoded_text = "\n".join(iter_text_values(payload))
     violations = []
     for name, pattern in BLOCKED_TEXT_PATTERNS.items():
-        match = pattern.search(serialized)
+        match = pattern.search(decoded_text)
         if match:
             violations.append(f"{sample_id}: blocked text pattern {name}: {match.group(0)}")
     return violations

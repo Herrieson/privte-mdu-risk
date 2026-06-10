@@ -132,8 +132,9 @@ privacy_processing_summary
 
 1. Run direct text-only LLM experiments on the new schema.
 2. Analyze errors against labels before changing prompts.
-3. Add the next visual module only where the v0 evidence shows a real bottleneck
-   such as hand visibility, gaze proxy, blink proxy, or facial action units.
+3. Analyze whether the new MediaPipe Tasks hand, FaceMesh eye-openness, and
+   facial geometry proxies improve evidence quality, then tune thresholds only
+   where error analysis shows a real bottleneck.
 
 ## Ethical Boundaries
 

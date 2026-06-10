@@ -327,11 +327,12 @@ Initial listeners:
 
 | Listener | Purpose | Output trigger_type | Status |
 | --- | --- | --- | --- |
-| `InteractionBurstListener` | Detect high hand/device activity or rapid interaction proxy | `high_interaction_intensity` | Basic v0 proxy implemented |
+| `DeviceInteractionListener` | Detect hand-visible device interaction evidence | `device_interaction_evidence` | Basic MediaPipe hand + device-motion proxy implemented |
+| `DeviceRegionMotionListener` | Preserve device-region motion when hand evidence is unreliable | `device_region_motion_proxy` | Implemented as motion evidence, not confirmed interaction |
 | `SustainedGazeListener` | Detect long screen-oriented gaze/head proxy windows | `sustained_screen_oriented_proxy` | Basic v0 proxy implemented; not exact eye tracking |
 | `PostureShiftListener` | Detect forward lean, backward shift, head drop, or posture transitions | `posture_shift` | Partial close-to-screen proxy implemented |
-| `BlinkChangeListener` | Detect blink-rate drop or spike relative to baseline | `blink_rate_change` | Not implemented |
-| `FacialAUTrendListener` | Detect selected AU trends such as AU4 / AU15 | `facial_au_trend` | Not implemented |
+| `BlinkChangeListener` | Detect blink-rate drop or spike relative to baseline | `blink_rate_change` | Basic sparse-frame FaceMesh eye-openness proxy implemented; not exact blink counting |
+| `FacialAUTrendListener` | Detect selected AU trends such as AU4 / AU15 | `facial_au_trend` | Basic FaceMesh geometry proxy implemented for selected AU-like codes; not a validated AU classifier |
 | `QualityDropListener` | Detect windows where quality limits evidence reliability | `quality_drop` | Basic v0 quality proxy implemented |
 | `MotionConfounderListener` | Detect camera/global motion that may confound interaction evidence | `motion_confounding` | Basic v0 proxy implemented |
 
@@ -353,11 +354,11 @@ relative order.
 | Generic LLM evidence package builder | Implemented | supports schema-first `global_features + event_windows` style fields |
 | Generic text renderer | Implemented | deterministic rendering from JSON evidence |
 | LLM baseline runner | Implemented | OpenAI-compatible text-only runner |
-| New video preprocessor extractor | Implemented v0 | emits runnable frame-proxy schema |
+| New video preprocessor extractor | Implemented v0 | emits runnable frame-proxy schema with MediaPipe Tasks hand and FaceMesh proxies |
 | Key-window selector | Partial | clip-order coverage windows plus event-window selection implemented |
-| ROI focusing module | Partial | screen/device-like region and face-observability proxies implemented |
-| Proxy feature extractors | Partial | frame difference, screen/device heuristic, face visibility, posture proxy implemented |
-| Quality gateway | Partial | lighting, blur, face/device observability, motion confounding, event confidence implemented |
+| ROI focusing module | Partial | screen/device-like region, hand landmark visibility, and FaceMesh visibility proxies implemented |
+| Proxy feature extractors | Partial | frame difference, screen/device heuristic, hand visibility, FaceMesh eye-openness, selected facial action geometry proxies, face visibility, posture proxy implemented |
+| Quality gateway | Partial | lighting, blur, face/hand/device observability, FaceMesh visibility, motion confounding, event confidence implemented |
 | Privacy compressor | Partial | schema whitelist and privacy flags implemented; raw media/path suppression audited |
 | Event listeners | Partial | basic listener behavior implemented inside v0 extractor; class-level listener interface pending |
 | Schema validator | Implemented | `validate_preprocessor_evidence` |
@@ -420,7 +421,7 @@ Tunable parameters:
 
 - [x] Estimate readable frame ratio.
 - [x] Estimate face visibility level.
-- [ ] Estimate hand visibility level.
+- [x] Estimate hand visibility level.
 - [x] Estimate device visibility level.
 - [x] Estimate lighting quality.
 - [x] Estimate occlusion level from face visibility proxy.
@@ -435,11 +436,11 @@ Acceptance criterion:
 ### Phase 4: Implement Proxy Feature Extractors
 
 - [x] Device/screen-like region detector.
-- [ ] Hand detector or hand landmark availability estimator.
+- [x] Hand detector or hand landmark availability estimator.
 - [x] Head/gaze orientation proxy.
 - [x] Posture proxy.
-- [ ] Blink proxy.
-- [ ] Selected facial AU proxy.
+- [x] Blink proxy.
+- [x] Selected facial AU proxy.
 - [x] Local motion and interaction proxy.
 - [x] Repetition proxy.
 
@@ -455,8 +456,8 @@ Notes:
 - [x] Implement basic `InteractionBurstListener` behavior.
 - [x] Implement basic `SustainedGazeListener` behavior.
 - [x] Implement basic `PostureShiftListener` behavior.
-- [ ] Implement `BlinkChangeListener`.
-- [ ] Implement `FacialAUTrendListener`.
+- [x] Implement `BlinkChangeListener`.
+- [x] Implement `FacialAUTrendListener`.
 - [x] Implement basic `QualityDropListener` behavior.
 - [x] Implement basic `MotionConfounderListener` behavior.
 - [x] Merge and rank listener outputs.
@@ -472,7 +473,7 @@ Acceptance criterion:
 
 - [x] Aggregate screen gaze proxy ratio bin.
 - [x] Aggregate maximum continuous gaze proxy duration bin.
-- [ ] Aggregate blink-rate level and trend.
+- [x] Aggregate blink-rate level and trend.
 - [x] Aggregate posture trend proxy.
 - [x] Aggregate interaction intensity.
 - [x] Aggregate repetitive operation level.

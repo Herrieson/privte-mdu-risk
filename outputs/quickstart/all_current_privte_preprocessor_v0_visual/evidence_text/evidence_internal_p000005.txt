@@ -1,0 +1,384 @@
+{
+  "schema_version": "privte_llm_text_evidence.v2",
+  "sample_id": "evidence_internal_p000005",
+  "task": {
+    "name": "Text-only Minor Digital Use Risk Screening",
+    "instruction": "基于 PriVTE 生成的隐私过滤视频行为证据，判断未成年人数字设备使用风险等级。",
+    "allowed_risk_levels": [
+      "no_observed_risk",
+      "mild_risk",
+      "moderate_risk",
+      "high_risk",
+      "insufficient_evidence"
+    ],
+    "boundary": "Risk screening from privacy-filtered video-derived text only; not a medical diagnosis, emotion diagnosis, or addiction conclusion."
+  },
+  "observation_scope": {
+    "input_modalities_used_for_model": [
+      "privacy_filtered_video_text"
+    ],
+    "video_status": "preprocessor_v0_frame_proxy_analysis",
+    "video_clips_available": 19,
+    "selected_video_clips_analyzed": 12,
+    "sampled_frame_count": 72,
+    "coverage_relative_position_counts": {
+      "early": 4,
+      "middle": 4,
+      "late": 4
+    },
+    "quality_overall": "adequate_for_frame_proxy_analysis"
+  },
+  "session_metadata": {
+    "session_id": "ANON_C52D64D6AA",
+    "total_valid_duration_minutes": 20,
+    "duration_bin": "10-20min",
+    "valid_observation_duration_bin": "10-20min",
+    "analyzed_window_count": 12,
+    "event_window_count": 8,
+    "privacy_processing_summary": [
+      "raw video remains local to the preprocessing environment",
+      "video frames are sampled locally and immediately compressed into low-dimensional proxy facts",
+      "event windows are represented by relative time periods and coarse categories only",
+      "raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed"
+    ]
+  },
+  "global_behavior_summary": {
+    "screen_orientation": "Screen-oriented posture ratio was not reliably estimated (motion_confounded).",
+    "posture": "Posture trend was not reliably computed.",
+    "interaction_observability": "Device or screen-like region was observed in most sampled windows; hands were observed in most sampled windows; selected behavior windows=8.",
+    "facial_and_eye_proxy": "FaceMesh was observed in most sampled windows; eye-closure proxy was not observed in the sampled windows; facial geometry proxy counts=AU25_proxy=1, AU4_proxy=1.",
+    "motion_confounding": "Overall motion confounding was observed in most sampled windows."
+  },
+  "global_features": {
+    "screen_gaze_ratio": null,
+    "screen_orientation_proxy_status": "motion_confounded",
+    "max_continuous_gaze_duration_minutes": null,
+    "overall_posture_trend": "mostly_visible_not_close",
+    "blink_rate_trend": "mostly_stable",
+    "visual_observability": {
+      "device_or_screen_like_region": "observed in most sampled windows",
+      "hands": "observed in most sampled windows",
+      "face_mesh": "observed in most sampled windows"
+    },
+    "stable_screen_context": "observed in a small minority of sampled windows",
+    "motion_confounding": "observed in most sampled windows",
+    "event_window_count": 8
+  },
+  "event_windows": [
+    {
+      "window_id": "Event_01",
+      "window_order": 1,
+      "relative_position": "early",
+      "relative_time_period": "00:00 - 01:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_region_motion_proxy",
+      "trigger_label": "Device_Region_Motion_Proxy",
+      "trigger_source": "device_region_motion_listener",
+      "proxy_evidence": {
+        "interaction": "The device or screen-like region was visible with intermittent lower-frame movement, but hand visibility was too weak to confirm touch input.",
+        "posture": "Posture could not be reliably summarized because face visibility or face-size evidence was insufficient.",
+        "facial_cues": "Facial cues were not reliable in this window because FaceMesh was not consistently available.",
+        "action_units_detected": [],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion increased near the visible device/screen-like region, but the sampled pattern was not enough to identify a specific touch type."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.0,
+        "hand_visibility_ratio": 0.0,
+        "occlusion": "not_computed",
+        "face_visibility_level": "none",
+        "face_mesh_visibility_level": "none",
+        "hand_visibility_level": "none",
+        "device_visibility_level": "very_high",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "not_computed",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_02",
+      "window_order": 3,
+      "relative_position": "early",
+      "relative_time_period": "03:00 - 04:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_region_motion_proxy",
+      "trigger_label": "Device_Region_Motion_Proxy",
+      "trigger_source": "device_region_motion_listener",
+      "proxy_evidence": {
+        "interaction": "The device or screen-like region was visible and lower-frame motion showed repeated rapid bursts, but hands were not visible enough to confirm touch input. Treat this as device-region activity, not confirmed hand-device interaction.",
+        "posture": "Posture could not be reliably summarized because face visibility or face-size evidence was insufficient.",
+        "facial_cues": "Facial cues were not reliable in this window because FaceMesh was not consistently available.",
+        "action_units_detected": [],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.0,
+        "hand_visibility_ratio": 0.0,
+        "occlusion": "not_computed",
+        "face_visibility_level": "none",
+        "face_mesh_visibility_level": "none",
+        "hand_visibility_level": "none",
+        "device_visibility_level": "very_high",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "not_computed",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_03",
+      "window_order": 4,
+      "relative_position": "early",
+      "relative_time_period": "05:00 - 06:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "blink_rate_change",
+      "trigger_label": "Blink_Rate_Change",
+      "trigger_source": "facemesh_eye_openness_listener",
+      "proxy_evidence": {
+        "interaction": "No confirmed device interaction was observed in this window from the available hand, device, and local-motion proxies.",
+        "posture": "The face appeared large when visible, consistent with a close-to-screen posture, but broader frame motion may affect posture stability interpretation.",
+        "facial_cues": "sampled eye openness appeared reduced; no clear eye-closure change was selected; facial geometry proxies were selected.",
+        "action_units_detected": [
+          "Brow-lowering geometry proxy (AU4-like), low intensity"
+        ],
+        "screen_orientation": "Screen orientation was not computed reliably for this window.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 1.0,
+        "hand_visibility_ratio": 0.333,
+        "occlusion": "none_detected_by_face_visibility_proxy",
+        "face_visibility_level": "very_high",
+        "face_mesh_visibility_level": "very_high",
+        "hand_visibility_level": "low",
+        "device_visibility_level": "low",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "none_detected_by_face_visibility_proxy",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_04",
+      "window_order": 5,
+      "relative_position": "middle",
+      "relative_time_period": "07:00 - 08:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_interaction_evidence",
+      "trigger_label": "Device_Interaction_Evidence",
+      "trigger_source": "mediapipe_hand_motion_listener",
+      "proxy_evidence": {
+        "interaction": "Limited hand visibility, a visible device or screen-like region, and repeated rapid lower-frame motion appeared together. This is treated as possible repeated touch input, but hand evidence is not strong enough for a direct interaction claim.",
+        "posture": "The face appeared large when visible, consistent with a close-to-screen posture, but broader frame motion may affect posture stability interpretation.",
+        "facial_cues": "sampled eye openness appeared reduced; no clear eye-closure change was selected; no dominant facial geometry action proxy was selected.",
+        "action_units_detected": [],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.833,
+        "hand_visibility_ratio": 0.333,
+        "occlusion": "none_detected_by_face_visibility_proxy",
+        "face_visibility_level": "high",
+        "face_mesh_visibility_level": "high",
+        "hand_visibility_level": "low",
+        "device_visibility_level": "high",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "none_detected_by_face_visibility_proxy",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_05",
+      "window_order": 6,
+      "relative_position": "middle",
+      "relative_time_period": "08:00 - 09:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "blink_rate_change",
+      "trigger_label": "Blink_Rate_Change",
+      "trigger_source": "facemesh_eye_openness_listener",
+      "proxy_evidence": {
+        "interaction": "No confirmed device interaction was observed in this window from the available hand, device, and local-motion proxies.",
+        "posture": "The face appeared large when visible, consistent with a close-to-screen posture, but broader frame motion may affect posture stability interpretation.",
+        "facial_cues": "sampled eye openness appeared typical; no clear eye-closure change was selected; no dominant facial geometry action proxy was selected.",
+        "action_units_detected": [],
+        "screen_orientation": "Screen orientation was not computed reliably for this window.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.833,
+        "hand_visibility_ratio": 0.833,
+        "occlusion": "none_detected_by_face_visibility_proxy",
+        "face_visibility_level": "high",
+        "face_mesh_visibility_level": "high",
+        "hand_visibility_level": "high",
+        "device_visibility_level": "none",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "none_detected_by_face_visibility_proxy",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_06",
+      "window_order": 7,
+      "relative_position": "middle",
+      "relative_time_period": "10:00 - 11:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_interaction_evidence",
+      "trigger_label": "Device_Interaction_Evidence",
+      "trigger_source": "mediapipe_hand_motion_listener",
+      "proxy_evidence": {
+        "interaction": "Visible hand landmarks co-occurred with a visible device or screen-like region, and lower-frame motion showed repeated rapid bursts. This supports a repeated touch-input proxy; exact touch type, coordinates, and screen content are not retained.",
+        "posture": "The face appeared large when visible, consistent with a close-to-screen posture, but broader frame motion may affect posture stability interpretation.",
+        "facial_cues": "sampled eye openness appeared typical; no clear eye-closure change was selected; no dominant facial geometry action proxy was selected.",
+        "action_units_detected": [],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.667,
+        "hand_visibility_ratio": 1.0,
+        "occlusion": "possible_partial_occlusion_or_pose_change",
+        "face_visibility_level": "medium",
+        "face_mesh_visibility_level": "medium",
+        "hand_visibility_level": "very_high",
+        "device_visibility_level": "high",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "possible_partial_occlusion_or_pose_change",
+        "event_confidence": "high"
+      }
+    },
+    {
+      "window_id": "Event_07",
+      "window_order": 8,
+      "relative_position": "middle",
+      "relative_time_period": "11:00 - 12:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_interaction_evidence",
+      "trigger_label": "Device_Interaction_Evidence",
+      "trigger_source": "mediapipe_hand_motion_listener",
+      "proxy_evidence": {
+        "interaction": "Visible hand landmarks co-occurred with a visible device or screen-like region, and lower-frame motion showed repeated rapid bursts. This supports a repeated touch-input proxy; exact touch type, coordinates, and screen content are not retained.",
+        "posture": "The face appeared large when visible, consistent with a close-to-screen posture, but broader frame motion may affect posture stability interpretation.",
+        "facial_cues": "sampled eye openness appeared typical; no clear eye-closure change was selected; facial geometry proxies were selected.",
+        "action_units_detected": [
+          "Lips-part geometry proxy (AU25-like), medium intensity"
+        ],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.833,
+        "hand_visibility_ratio": 0.833,
+        "occlusion": "none_detected_by_face_visibility_proxy",
+        "face_visibility_level": "high",
+        "face_mesh_visibility_level": "high",
+        "hand_visibility_level": "high",
+        "device_visibility_level": "medium",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "none_detected_by_face_visibility_proxy",
+        "event_confidence": "medium"
+      }
+    },
+    {
+      "window_id": "Event_08",
+      "window_order": 9,
+      "relative_position": "late",
+      "relative_time_period": "13:00 - 14:00",
+      "duration_bin": "30-90s",
+      "trigger_type": "device_interaction_evidence",
+      "trigger_label": "Device_Interaction_Evidence",
+      "trigger_source": "mediapipe_hand_motion_listener",
+      "proxy_evidence": {
+        "interaction": "Limited hand visibility, a visible device or screen-like region, and repeated rapid lower-frame motion appeared together. This is treated as possible repeated touch input, but hand evidence is not strong enough for a direct interaction claim.",
+        "posture": "The face was visible without a strong close-to-screen proxy in this sampled window.",
+        "facial_cues": "sampled eye openness appeared typical; no clear eye-closure change was selected; no dominant facial geometry action proxy was selected.",
+        "action_units_detected": [],
+        "screen_orientation": "The device or screen-like region was visible, but face visibility or motion conditions were not sufficient for a reliable screen-orientation proxy.",
+        "motion_context": "Lower-frame motion had repeated bursts, while broad frame motion was also present; interaction interpretation is confounded by global movement."
+      },
+      "quality_metrics": {
+        "face_visibility_ratio": 0.167,
+        "hand_visibility_ratio": 0.167,
+        "occlusion": "limited_face_visibility",
+        "face_visibility_level": "low",
+        "face_mesh_visibility_level": "low",
+        "hand_visibility_level": "low",
+        "device_visibility_level": "high",
+        "lighting_quality": "Sufficient",
+        "occlusion_level": "limited_face_visibility",
+        "event_confidence": "medium"
+      }
+    }
+  ],
+  "quality_summary": {
+    "overall_data_sufficiency": "adequate_for_frame_proxy_analysis",
+    "face_observability": "high",
+    "hand_observability": "high",
+    "device_observability": "high",
+    "gaze_estimation_quality": "not_reliably_estimable_motion_confounded",
+    "multi_person_interference": "occasional_possible_interference",
+    "motion_confounding_level": "high",
+    "limitations": [
+      "preprocessor_v0_uses_lightweight_frame_proxies",
+      "screen_or_device_visibility_is_heuristic",
+      "hand_device_interaction_uses_hand_landmark_visibility_and_motion_proxy",
+      "blink_rate_is_sparse_frame_proxy_not_exact_blink_counter",
+      "facial_action_units_are_geometry_proxies_not_emotion_diagnosis"
+    ]
+  },
+  "limitations": [
+    "preprocessor_v0_uses_lightweight_frame_proxies",
+    "screen_or_device_visibility_is_heuristic",
+    "hand_device_interaction_uses_hand_landmark_visibility_and_motion_proxy",
+    "blink_rate_is_sparse_frame_proxy_not_exact_blink_counter",
+    "facial_action_units_are_geometry_proxies_not_emotion_diagnosis",
+    "screen_orientation_is_proxy_based_not_eye_tracking",
+    "not_for_diagnosis"
+  ],
+  "missing_information": [
+    "validated_eye_tracking",
+    "clinical_facial_au_labels"
+  ],
+  "privacy_processing_summary": {
+    "raw_video_included": false,
+    "raw_images_included": false,
+    "raw_audio_included": false,
+    "ocr_text_included": false,
+    "asr_text_included": false,
+    "exact_timestamps_included": false,
+    "high_frequency_coordinates_included": false,
+    "face_embeddings_included": false,
+    "screen_content_included": false,
+    "questionnaire_answers_included": false,
+    "exact_heart_rate_values_included": false,
+    "app_names_included": false,
+    "raw_paths_included": false,
+    "processing_steps": [
+      "raw video remains local to the preprocessing environment",
+      "video frames are sampled locally and immediately compressed into low-dimensional proxy facts",
+      "event windows are represented by relative time periods and coarse categories only",
+      "raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed"
+    ]
+  },
+  "requested_model_output": {
+    "format": "json",
+    "fields": {
+      "risk_level": [
+        "no_observed_risk",
+        "mild_risk",
+        "moderate_risk",
+        "high_risk",
+        "insufficient_evidence"
+      ],
+      "confidence": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "supporting_evidence": "list[str]",
+      "uncertainty_or_counter_evidence": "list[str]",
+      "missing_information": "list[str]",
+      "needs_human_review": "bool"
+    }
+  }
+}
