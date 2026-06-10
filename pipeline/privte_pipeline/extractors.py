@@ -8,7 +8,6 @@ algorithm implementations do not accumulate here.
 from __future__ import annotations
 
 from .algorithms import available_extractors, build_extractor
-from .algorithms.behavior_v1 import PriVTEBehaviorV1Extractor
 from .algorithms.common import (
     collect_clips,
     count_available,
@@ -23,17 +22,14 @@ from .algorithms.common import (
     size_bucket,
     video_file_entries,
 )
-from .algorithms.flowlite import PriVTEFlowLiteExtractor
 from .algorithms.manifest_only import ManifestOnlyExtractor
-from .algorithms.simple_video_quality import SimpleVideoQualityExtractor
+from .algorithms.privte_preprocessor_v0 import PriVTEPreprocessorV0Extractor
 from .core import EvidenceExtractor
 
 __all__ = [
     "EvidenceExtractor",
     "ManifestOnlyExtractor",
-    "SimpleVideoQualityExtractor",
-    "PriVTEFlowLiteExtractor",
-    "PriVTEBehaviorV1Extractor",
+    "PriVTEPreprocessorV0Extractor",
     "available_extractors",
     "build_extractor",
     "collect_clips",

@@ -1,0 +1,117 @@
+样本编号: evidence_internal_p000007
+任务: Text-only Minor Digital Use Risk Screening
+任务说明: 基于 PriVTE 生成的隐私过滤视频代理证据，判断未成年人数字设备使用风险等级。
+边界: 这是基于视频代理证据的风险筛查，不是成瘾诊断。
+允许风险等级: no_observed_risk, mild_risk, moderate_risk, high_risk, insufficient_evidence
+
+模型判定规则:
+- 只能使用本 evidence package 中的文本证据。
+- 不要把视频代理线索解释为医学诊断、心理状态确认或成瘾结论。
+- 证据质量低或关键模态缺失时，应降低置信度并考虑 insufficient_evidence。
+- 输出必须同时说明支持证据、降低确定性的证据、缺失信息和是否需要人工复核。
+
+风险筛查 rubric:
+- no_observed_risk: 未观察到持续屏幕参与、频繁交互或重复操作代理证据，且证据质量足够。
+- mild_risk: 存在一定屏幕参与或交互代理证据，但强度、持续性或一致性有限。
+- moderate_risk: 同时存在较持续屏幕参与和较频繁设备交互代理证据，且质量可用。
+- high_risk: 视频代理证据显示强持续屏幕参与、强重复交互和多窗口一致性；仍需人工复核，不能视为诊断。
+- insufficient_evidence: 视频质量、可见性、关键行为代理或覆盖度不足，无法支持可靠筛查判断。
+
+观察范围:
+- 模型输入模态: video_proxy_text
+- 视频片段数量: 44
+- 已抽样分析视频片段: 12
+- 已抽样分析帧数: 85
+- 覆盖位置计数: early=28, late=29, middle=28
+- 证据质量总评: usable_frame_quality
+- 心率可用但不作为输入: yes
+- 应用记录可用但不作为输入: yes
+- 问卷可用但不作为输入: yes
+
+行为代理观察:
+- 信号: device_use_observability
+  取值: medium
+  行为解释: 视频中可见设备/屏幕样区域的比例水平。
+  风险相关性: 这是判断数字设备使用行为是否可观察的基础条件，不直接等同于风险。
+  证据质量: usable_frame_quality
+- 信号: sustained_screen_engagement_proxy
+  取值: medium
+  行为解释: 设备/屏幕样区域可见且全局运动不突增的聚合比例。
+  风险相关性: 可作为持续观看或稳定投入的代理线索；只能支持风险筛查，不能等同于注意力或成瘾。
+  证据质量: usable_frame_quality
+- 信号: active_device_interaction_proxy
+  取值: high
+  行为解释: 由近设备运动水平=elevated 与交互突增窗口数量=high 综合得到。
+  风险相关性: 较高值可作为频繁操作、滑动/点击或设备附近动作活跃的代理线索。
+  证据质量: usable_frame_quality
+- 信号: repetitive_operation_proxy
+  取值: high
+  行为解释: 相对个体内运动基线的设备附近运动突增次数。
+  风险相关性: 较多突增窗口可提示重复操作或频繁交互片段，但不识别具体 app 或内容。
+  证据质量: usable_frame_quality
+- 信号: face_based_engagement_observability
+  取值: low
+  行为解释: 由人脸可见性=low 与人脸/屏幕共现=low 综合得到。
+  风险相关性: 该信号只表示能否观察面向屏幕相关线索；本版不做身份、人脸嵌入或精确凝视估计。
+  证据质量: usable_frame_quality
+- 信号: posture_or_context_change_proxy
+  取值: high
+  行为解释: 由全局运动水平=high 与全局运动突增窗口数量=high 得到。
+  风险相关性: 可作为姿态变化、离开/返回或拍摄场景扰动的弱代理线索，需要与设备交互区分。
+  证据质量: usable_frame_quality
+- 信号: affect_fatigue_or_gaze_proxy
+  取值: not_available_in_flowlite_v0
+  行为解释: 本版没有直接眼动、眨眼、面部动作单元、负向表情或疲劳趋势估计。
+  风险相关性: 不能根据本输出判断主观渴求、挫败、疲劳、情绪或成瘾状态。
+  证据质量: usable_frame_quality
+
+关键事件窗口:
+- event_01: 位置=early; 观察=设备附近运动突增; 强度=elevated; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示具体内容或诊断。
+- event_02: 位置=middle; 观察=设备附近运动突增; 强度=elevated; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示具体内容或诊断。
+- event_03: 位置=middle; 观察=设备附近运动突增; 强度=high; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示具体内容或诊断。
+- event_04: 位置=early; 观察=设备附近运动突增; 强度=high; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示具体内容或诊断。
+- event_05: 位置=late; 观察=设备附近运动突增; 强度=high; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示具体内容或诊断。
+- 关键事件类型计数: near_device_motion_burst=5
+
+风险相关综合:
+- 视频代理证据强度: moderate_video_proxy_signal
+- 支持进一步关注的证据:
+  - 稳定观看代理比例为中等，提示存在一定屏幕参与，但强度有限。
+  - 活跃设备交互代理信号较高，提示设备附近存在较频繁的操作或姿态变化。
+  - 交互突增窗口数量较高，支持频繁交互或操作变化的代理证据。
+  - 全局运动突增较多，可能提示姿态频繁变化，但需要与设备附近运动区分。
+- 降低确定性或反向证据:
+  - 人脸与设备/屏幕样区域共现较低，不能可靠判断凝视、表情或面向屏幕状态。
+  - 本版缺少直接手部关键点、精确凝视、表情动作单元和疲劳趋势证据。
+- 质量建议: 证据质量可用，但结论仍只能是基于视频代理证据的风险筛查。
+
+缺失信息:
+- direct_hand_landmarks
+- direct_gaze_estimation
+- screen_content_ocr
+- high_dimensional_pose_or_face_mesh
+- questionnaire_input
+- exact_heart_rate_input
+- app_name_input
+
+隐私约束:
+- raw_video_included: False
+- raw_images_included: False
+- raw_audio_included: False
+- ocr_text_included: False
+- asr_text_included: False
+- face_embeddings_included: False
+- high_dimensional_landmarks_included: False
+- questionnaire_answers_included: False
+- exact_heart_rate_values_included: False
+- app_names_included: False
+- raw_paths_included: False
+- exact_timestamps_included: False
+
+要求模型输出 JSON:
+- risk_level: ['no_observed_risk', 'mild_risk', 'moderate_risk', 'high_risk', 'insufficient_evidence']
+- confidence: ['low', 'medium', 'high']
+- supporting_evidence: list[str]
+- uncertainty_or_counter_evidence: list[str]
+- missing_information: list[str]
+- needs_human_review: bool

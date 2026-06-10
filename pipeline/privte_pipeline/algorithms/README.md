@@ -48,7 +48,10 @@ Current algorithm modules:
 
 ```text
 manifest_only.py          # schema/data-flow baseline
-simple_video_quality.py   # container metadata baseline
-flowlite.py               # OpenCV heuristic frame-level proxy extractor
-behavior_v1.py            # MediaPipe + YOLO practical behavior proxy extractor
+privte_preprocessor_v0.py # active frame-proxy preprocessor MVP
 ```
+
+Archived historical algorithms are under
+`archive/legacy_2026_06_10/methods/pipeline_algorithms/`. New work should not
+extend those versions; add a fresh extractor for the listener-based
+`global_features + event_windows` schema.

@@ -84,3 +84,50 @@ data/manifests/label_join_report.6_1data.v0.labeled.json
 The joined label field contains risk-label summaries, raw label count summaries,
 matched label row indices, and dimension confidence summaries. It does not inline
 raw path columns from the Excel file.
+
+## `build_combined_manifest.py`
+
+Builds one internal manifest from multiple flat raw data roots. Use this when a
+comparison should run on the current total dataset instead of one uploaded batch.
+The script reassigns `person_uid` globally across all roots, so IDs do not
+collide across per-batch manifests.
+
+Example:
+
+```bash
+uv run python scripts/build_combined_manifest.py \
+  --data-root data/6.1data \
+  --data-root data/数据测试2 \
+  --data-root data/6.5数据测试 \
+  --output-dir data/manifests \
+  --subset-name all_current
+```
+
+Then join labels:
+
+```bash
+uv run python scripts/join_labels_to_manifest.py \
+  --person-manifest data/manifests/internal_person_manifest.all_current.v0.jsonl \
+  --clip-manifest data/manifests/internal_clip_manifest.all_current.v0.jsonl \
+  --label-xlsx data/label.xlsx
+```
+
+Historical Trace/V3 refresh and conversion scripts were archived under
+`archive/legacy_2026_06_10/methods/scripts/`.
+
+## `audit_privacy_evidence.py`
+
+Audits generated evidence JSONL public-input fields for obvious privacy leaks,
+including raw paths, raw video directory IDs, raw clip filenames, image
+filenames, and privacy flags that should remain false.
+
+Example:
+
+```bash
+uv run python scripts/audit_privacy_evidence.py \
+  outputs/quickstart/6_1data_privte_preprocessor_v0/preprocessor_v0_evidence.6_1data.jsonl
+```
+
+The audit targets `llm_evidence_package`, `text_evidence`, and
+`feature_blocks.preprocessor_evidence`. It does not treat internal manifests as
+public release artifacts.

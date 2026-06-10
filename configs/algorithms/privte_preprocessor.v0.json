@@ -1,0 +1,16 @@
+{
+  "schema_version": "privte_preprocessor_config.v0",
+  "mode": "frame_proxy_preprocessor_v0",
+  "session_id_salt": "privte_preprocessor_v0",
+  "max_metadata_video_files": 128,
+  "coverage_window_count": 12,
+  "frames_per_coverage_window": 6,
+  "analysis_width": 320,
+  "max_event_windows": 8,
+  "local_motion_threshold": 0.035,
+  "global_motion_threshold": 0.05,
+  "notes": [
+    "This config runs local frame sampling and low-dimensional proxy evidence extraction.",
+    "Raw frames, raw paths, exact absolute timestamps, OCR, ASR, and app names are not emitted."
+  ]
+}

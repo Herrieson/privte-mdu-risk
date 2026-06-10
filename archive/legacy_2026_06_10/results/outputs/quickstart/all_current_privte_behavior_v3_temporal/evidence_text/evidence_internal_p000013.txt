@@ -1,0 +1,198 @@
+样本编号: evidence_internal_p000013
+任务: Text-only Minor Digital Use Risk Screening
+任务说明: 基于 PriVTE 生成的隐私过滤视频代理证据，判断未成年人数字设备使用风险等级。
+边界: 这是基于视频代理证据的风险筛查，不是成瘾诊断。
+允许风险等级: no_observed_risk, mild_risk, moderate_risk, high_risk, insufficient_evidence
+
+模型判定规则:
+- 只能使用本 evidence package 中的文本证据。
+- 不要把视频代理线索解释为医学诊断、心理状态确认或成瘾结论。
+- 证据质量低或关键模态缺失时，应降低置信度并考虑 insufficient_evidence。
+- 输出必须同时说明支持证据、降低确定性的证据、缺失信息和是否需要人工复核。
+
+风险筛查 rubric:
+- no_observed_risk: 未观察到持续屏幕参与、频繁交互或重复操作代理证据，且证据质量足够。
+- mild_risk: 存在一定屏幕参与或交互代理证据，但强度、持续性或一致性有限。
+- moderate_risk: 同时存在较持续屏幕参与和较频繁设备交互代理证据，且质量可用。
+- high_risk: 视频代理证据显示强持续屏幕参与、强重复交互和多窗口一致性；仍需人工复核，不能视为诊断。
+- insufficient_evidence: 视频质量、可见性、关键行为代理或覆盖度不足，无法支持可靠筛查判断。
+
+观察范围:
+- 模型输入模态: video_proxy_text
+- 视频片段数量: 11
+- 已抽样分析视频片段: 11
+- 已抽样分析帧数: 123
+- 覆盖位置计数: early=41, late=41, middle=41
+- 证据质量总评: usable_behavior_frame_quality
+- 心率可用但不作为输入: no
+- 应用记录可用但不作为输入: yes
+- 问卷可用但不作为输入: yes
+
+行为代理观察:
+隐私安全时序行为摘要:
+- step_01: 位置=early；状态=confounded_device_region_activity；覆盖=medium；证据=设备区域活动伴随姿态/场景运动混淆，混淆点=2/14。；置信度=low。
+- step_02: 位置=early；状态=device_visible_only；覆盖=medium；证据=设备可见点=7/13，但直接交互和稳定参与证据有限。；置信度=medium。
+- step_03: 位置=early；状态=passive_screen_engagement；覆盖=medium；证据=稳定屏幕参与点=2/14，直接操作点=0。；置信度=medium。
+- step_04: 位置=middle；状态=device_visible_only；覆盖=medium；证据=设备可见点=5/14，但直接交互和稳定参与证据有限。；置信度=medium。
+- step_05: 位置=middle；状态=device_visible_only；覆盖=medium；证据=设备可见点=9/13，但直接交互和稳定参与证据有限。；置信度=medium。
+- step_06: 位置=middle；状态=confounded_device_region_activity；覆盖=medium；证据=设备区域活动伴随姿态/场景运动混淆，混淆点=2/14。；置信度=low。
+- step_07: 位置=late；状态=device_visible_only；覆盖=medium；证据=设备可见点=6/14，但直接交互和稳定参与证据有限。；置信度=medium。
+- step_08: 位置=late；状态=indirect_device_region_activity；覆盖=medium；证据=设备区域活动存在，但直接手-设备操作证据有限，活动点=2/13。；置信度=medium。
+- step_09: 位置=late；状态=posture_or_context_motion；覆盖=medium；证据=该时序窗口以姿态或场景运动为主，不能直接解释为设备使用。；置信度=medium。
+- 全局时序结论: 主导状态=device_visible_only, confounded_device_region_activity, passive_screen_engagement；主动操作步骤数=0；重复操作步骤数=0；混淆活动步骤数=2。
+- 时序汇总: dominant_states=device_visible_only, confounded_device_region_activity, passive_screen_engagement, active_operation_step_count=0, active_operation_point_count=0, repetitive_operation_step_count=0, repetitive_operation_point_count=0, stable_screen_step_count=1, confounded_activity_step_count=2, temporal_signal_strength=weak_video_proxy_signal
+隐私安全时序状态序列:
+- step_01: 位置=early; 状态=confounded_device_region_activity; 覆盖=medium; 置信度=low; 证据=sampled_points=14, device_visible_share=50%, stable_screen_share=14%, active_operation_share=0%, confounded_activity_share=14%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=存在运动混淆，不宜据此推高风险。
+- step_02: 位置=early; 状态=device_visible_only; 覆盖=medium; 置信度=medium; 证据=sampled_points=13, device_visible_share=54%, stable_screen_share=0%, active_operation_share=0%, confounded_activity_share=8%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=设备可见是可观察性前提，但不能单独视为风险证据。
+- step_03: 位置=early; 状态=passive_screen_engagement; 覆盖=medium; 置信度=medium; 证据=sampled_points=14, device_visible_share=50%, stable_screen_share=14%, active_operation_share=0%, confounded_activity_share=0%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=可支持持续屏幕参与代理，但不等同于主动操作或成瘾。
+- step_04: 位置=middle; 状态=device_visible_only; 覆盖=medium; 置信度=medium; 证据=sampled_points=14, device_visible_share=36%, stable_screen_share=0%, active_operation_share=0%, confounded_activity_share=7%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=设备可见是可观察性前提，但不能单独视为风险证据。
+- step_05: 位置=middle; 状态=device_visible_only; 覆盖=medium; 置信度=medium; 证据=sampled_points=13, device_visible_share=69%, stable_screen_share=0%, active_operation_share=0%, confounded_activity_share=0%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=设备可见是可观察性前提，但不能单独视为风险证据。
+- step_06: 位置=middle; 状态=confounded_device_region_activity; 覆盖=medium; 置信度=low; 证据=sampled_points=14, device_visible_share=57%, stable_screen_share=7%, active_operation_share=0%, confounded_activity_share=14%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=存在运动混淆，不宜据此推高风险。
+- step_07: 位置=late; 状态=device_visible_only; 覆盖=medium; 置信度=medium; 证据=sampled_points=14, device_visible_share=43%, stable_screen_share=7%, active_operation_share=0%, confounded_activity_share=7%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=设备可见是可观察性前提，但不能单独视为风险证据。
+- step_08: 位置=late; 状态=indirect_device_region_activity; 覆盖=medium; 置信度=medium; 证据=sampled_points=13, device_visible_share=46%, stable_screen_share=8%, active_operation_share=0%, confounded_activity_share=0%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=只能作为设备附近活动的辅助证据。
+- step_09: 位置=late; 状态=posture_or_context_motion; 覆盖=medium; 置信度=medium; 证据=sampled_points=14, device_visible_share=7%, stable_screen_share=7%, active_operation_share=0%, confounded_activity_share=0%, hand_device_proximity_points=0, repetitive_operation_points=0; 风险相关性=主要用于识别混淆因素，不直接支持风险升高。
+
+隐私过滤行为证据:
+- 证据类型: device_or_screen_presence
+  观察内容: 抽样帧中设备/屏幕样区域可见水平为 medium；约 56 个抽样帧可见，占抽样帧 46%。
+  粗粒度计量: sampled_frames=123, device_visible_sampled_frames=56, device_visible_share=46%, device_visible_share_range=25-60%
+  行为含义: 这说明视频里存在可观察的数字设备使用场景，但它本身不是风险证据。
+  隐私过滤: 不输出图像、屏幕内容、设备位置坐标或应用名称。
+  风险相关性: 作为后续交互和持续参与证据的可观察性前提。
+- 证据类型: stable_screen_participation_episode
+  观察内容: 稳定屏幕参与代理为 low；约 8 个抽样帧满足稳定参与条件，占抽样帧 6%；最长连续稳定片段为 low，约 2 个连续抽样帧。
+  粗粒度计量: stable_sampled_frames=8, stable_share=6%, stable_share_range=5-25%, max_consecutive_sampled_frames=2, stable_event_positions={none}
+  行为含义: 该证据表示设备可见且画面相对稳定的片段，不等同于精确注视或注意力。
+  隐私过滤: 只保留早/中/晚覆盖和粗粒度连续性，不保留精确时间戳。
+  风险相关性: 可支持持续观看或持续投入的代理判断。
+- 证据类型: direct_hand_device_interaction
+  观察内容: 手部可见水平为 none；手-设备接近代理为 none；活跃手-设备交互代理为 low；约 11 个抽样帧存在手部接近或设备区域活动。
+  粗粒度计量: hand_visible_sampled_frames=0, hand_device_proximity_sampled_frames=0, active_interaction_sampled_frames=11, active_interaction_share=9%, active_interaction_share_range=5-25%, selected_hand_interaction_events=0
+  行为含义: 这是比单纯设备可见更直接的操作线索，但仍不是已验证触摸事件。
+  隐私过滤: 不输出手部关键点序列、坐标或截图。
+  风险相关性: 可支持点击、滑动或拿取设备等操作活跃性的代理判断。
+- 证据类型: device_region_local_activity
+  观察内容: 设备区域局部活动代理为 medium；约 11 个抽样点出现设备区域局部活动；入选关键事件中设备区域活动事件数量为 4。
+  粗粒度计量: device_region_activity_sampled_points=11, device_region_activity_share=9%, device_region_activity_share_range=5-25%, selected_device_activity_events=4, selected_event_positions={early=3, middle=1}
+  行为含义: 该证据来自设备附近局部运动或画面变化，可能对应操作，也可能来自画面扰动。
+  隐私过滤: 不输出屏幕 OCR、应用内容、图像或精确 ROI 坐标。
+  风险相关性: 作为交互活跃性的辅助证据，不能单独当作高风险证据。
+- 证据类型: repetitive_operation_or_absence
+  观察内容: 重复操作代理窗口数量为 none；抽样范围内检测到 0 个重复操作代理点。
+  粗粒度计量: repetitive_operation_sampled_points=0, repetitive_operation_level=none, selected_hand_interaction_events=0
+  行为含义: 若该项较低，表示抽样范围内没有观察到足够重复操作代理证据。
+  隐私过滤: 只输出粗粒度窗口数量，不输出动作轨迹。
+  风险相关性: 较高值支持频繁交互；较低值应降低风险强度确定性。
+- 证据类型: motion_confounder_check
+  观察内容: 姿态/场景变化代理为 low；全局运动水平为 low；姿态/场景变化代理点为 2；关键事件类型计数为 device_region_motion_burst=4, global_motion_burst=2, posture_or_context_motion_burst=2。
+  粗粒度计量: posture_or_context_change_points=2, global_motion_level=low, selected_global_motion_events=2, selected_posture_or_context_events=2, selected_event_positions={early=1, late=2, middle=1}
+  行为含义: 该证据用于判断设备附近运动是否可能被身体移动、镜头移动或场景扰动混淆。
+  隐私过滤: 只输出运动类别和粗粒度强度，不输出场景描述或身份线索。
+  风险相关性: 混淆因素较强时，应降低对交互证据的确定性。
+
+- 信号: device_use_observability
+  取值: medium
+  行为解释: 由设备/屏幕检测或备用屏幕样区域检测得到的可观察性水平。
+  风险相关性: 这是视频中数字设备使用行为能否被观察的基础条件。
+  证据质量: usable_behavior_frame_quality
+- 信号: sustained_screen_engagement_proxy
+  取值: low
+  行为解释: 设备可见、质量可用且行为上下文相对稳定的聚合比例。
+  风险相关性: 较高值可作为持续屏幕参与代理证据，不能等同于成瘾或精确注意力。
+  证据质量: usable_behavior_frame_quality
+- 信号: max_continuous_stable_engagement_proxy
+  取值: low
+  行为解释: 抽样帧序列中连续稳定屏幕参与代理的最长片段。
+  风险相关性: 用于补充持续性证据；该值受抽样策略影响，不是精确时长。
+  证据质量: usable_behavior_frame_quality
+- 信号: hand_device_interaction_proxy
+  取值: low
+  行为解释: 由手部可见性=none、手-设备接近=none 和设备区域活动=medium 综合得到。
+  风险相关性: 较高值可作为操作、触摸样动作或滑动样动作活跃的代理线索。
+  证据质量: usable_behavior_frame_quality
+- 信号: device_region_activity_proxy
+  取值: medium
+  行为解释: 由设备区域短间隔局部运动突增得到，窗口数量=medium。
+  风险相关性: 可作为设备附近滑动、点击、触摸样动作或屏幕区域变化的弱代理；不识别具体内容、app 或真实触摸事件。
+  证据质量: usable_behavior_frame_quality
+- 信号: repetitive_operation_proxy
+  取值: none
+  行为解释: 由手部接近设备且手部运动突增的窗口数量得到。
+  风险相关性: 较多窗口可提示重复操作或频繁交互，但不是已验证的点击/滑动标签。
+  证据质量: usable_behavior_frame_quality
+- 信号: face_device_context_observability
+  取值: low
+  行为解释: 由人脸-设备共现=low 和头部/设备相对上下文=low 得到。
+  风险相关性: 该信号表示面向屏幕相关线索是否可观察；不是精确 gaze。
+  证据质量: usable_behavior_frame_quality
+- 信号: posture_or_context_change_proxy
+  取值: low
+  行为解释: 由姿态中心变化和全局运动突增聚合得到。
+  风险相关性: 可作为姿态变化、离开/返回或拍摄场景扰动的弱代理线索。
+  证据质量: usable_behavior_frame_quality
+- 信号: affect_fatigue_or_gaze_proxy
+  取值: not_validated_in_behavior_v1
+  行为解释: 本版未输出经验证的情绪、疲劳或精确凝视证据。
+  风险相关性: 不能根据本输出判断主观渴求、挫败、疲劳、情绪或成瘾状态。
+  证据质量: usable_behavior_frame_quality
+
+关键事件窗口:
+- event_01: 位置=early; 观察=设备区域运动突增; 强度=elevated; 质量=partial; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_02: 位置=early; 观察=姿态或场景运动突增; 强度=medium; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_03: 位置=middle; 观察=设备区域运动突增; 强度=elevated; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_04: 位置=late; 观察=全局运动突增; 强度=medium; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_05: 位置=middle; 观察=姿态或场景运动突增; 强度=medium; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_06: 位置=early; 观察=设备区域运动突增; 强度=elevated; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_07: 位置=early; 观察=设备区域运动突增; 强度=elevated; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- event_08: 位置=late; 观察=全局运动突增; 强度=medium; 质量=usable; 风险相关性=用于提示值得关注的行为片段；仅表示代理事件窗口，不表示诊断。
+- 关键事件类型计数: device_region_motion_burst=4, global_motion_burst=2, posture_or_context_motion_burst=2
+
+风险相关综合:
+- 视频代理证据强度: weak_video_proxy_signal
+- 支持进一步关注的证据:
+  - 设备区域活动代理为中等，提示存在一定设备附近活动线索。
+  - V3提供按先后顺序组织的隐私安全行为状态序列，可用于判断行为过程而非只看全局比例。
+  - V3观察到稳定屏幕参与时序步骤数=1。
+- 降低确定性或反向证据:
+  - 手-设备交互代理较弱，操作活跃性证据有限。
+  - 重复操作代理窗口较少，重复操作证据不足。
+  - 人脸-设备上下文较弱，不能可靠判断面向屏幕或凝视状态。
+  - 本版手-设备交互、头部朝向和姿态变化仍是代理证据，不是临床或主观状态标签。
+  - V2直接交互证据为 limited_indirect_activity，不宜仅凭设备区域活动推高风险。
+  - V2未观察到证据: no_clear_sustained_or_repetitive_proxy_observed。
+  - V3存在设备仅可见步骤，但缺少主动手-设备操作步骤，不能仅凭设备可见推高风险。
+  - V3未观察到重复操作代理步骤，应降低 moderate/high 判断确定性。
+  - V3观察到混淆设备区域活动步骤数=2，抽样点数=7，设备附近活动可能受姿态或场景运动影响。
+- 质量建议: 证据质量可用，但结论仍只能是基于视频代理证据的风险筛查。
+
+缺失信息:
+- exact_touch_events
+- direct_gaze_estimation
+- validated_affect_or_fatigue_labels
+- screen_content_ocr
+- high_dimensional_pose_or_face_mesh
+- questionnaire_input
+- exact_heart_rate_input
+- app_name_input
+
+隐私约束:
+- raw_video_included: False
+- raw_images_included: False
+- raw_audio_included: False
+- ocr_text_included: False
+- asr_text_included: False
+- face_embeddings_included: False
+- high_dimensional_landmarks_included: False
+- questionnaire_answers_included: False
+- exact_heart_rate_values_included: False
+- app_names_included: False
+- raw_paths_included: False
+- exact_timestamps_included: False
+
+要求模型输出 JSON:
+- risk_level: ['no_observed_risk', 'mild_risk', 'moderate_risk', 'high_risk', 'insufficient_evidence']
+- confidence: ['low', 'medium', 'high']
+- supporting_evidence: list[str]
+- uncertainty_or_counter_evidence: list[str]
+- missing_information: list[str]
+- needs_human_review: bool

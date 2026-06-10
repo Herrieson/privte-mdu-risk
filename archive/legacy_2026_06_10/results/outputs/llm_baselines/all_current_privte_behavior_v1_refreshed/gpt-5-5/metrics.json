@@ -1,0 +1,86 @@
+{
+  "records": 25,
+  "valid_predictions": 25,
+  "invalid_predictions": 0,
+  "accuracy": 0.4,
+  "macro_f1_observed_labels": 0.2444,
+  "target_label_counts": {
+    "mild_risk": 14,
+    "moderate_risk": 6,
+    "no_observed_risk": 5
+  },
+  "predicted_label_counts": {
+    "mild_risk": 16,
+    "moderate_risk": 9
+  },
+  "error_counts": {},
+  "per_label": {
+    "no_observed_risk": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 5
+    },
+    "mild_risk": {
+      "precision": 0.5625,
+      "recall": 0.6429,
+      "f1": 0.6,
+      "support": 14
+    },
+    "moderate_risk": {
+      "precision": 0.1111,
+      "recall": 0.1667,
+      "f1": 0.1333,
+      "support": 6
+    },
+    "high_risk": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "insufficient_evidence": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    }
+  },
+  "confusion": {
+    "no_observed_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 2,
+      "moderate_risk": 3,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "mild_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 9,
+      "moderate_risk": 5,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "moderate_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 5,
+      "moderate_risk": 1,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "high_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 0,
+      "moderate_risk": 0,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "insufficient_evidence": {
+      "no_observed_risk": 0,
+      "mild_risk": 0,
+      "moderate_risk": 0,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    }
+  }
+}

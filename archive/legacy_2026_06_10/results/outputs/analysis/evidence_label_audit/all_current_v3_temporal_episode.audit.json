@@ -1,0 +1,1388 @@
+{
+  "schema_version": "privte_evidence_label_audit.v0",
+  "records": 25,
+  "label_counts": {
+    "mild_risk": 14,
+    "moderate_risk": 6,
+    "no_observed_risk": 5
+  },
+  "numeric_feature_summaries": {
+    "sampled_frame_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 177.0,
+          "min": 177.0,
+          "max": 177.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 151.5,
+          "min": 12.0,
+          "max": 177.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 177.3333,
+          "min": 176.0,
+          "max": 179.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "device_visible_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.6306,
+          "min": 0.345,
+          "max": 0.836
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.6234,
+          "min": 0.328,
+          "max": 0.91
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.4985,
+          "min": 0.218,
+          "max": 0.723
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "hand_visible_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.12,
+          "min": 0.023,
+          "max": 0.367
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.0497,
+          "min": 0.0,
+          "max": 0.215
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.0337,
+          "min": 0.0,
+          "max": 0.073
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "hand_device_proximity_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.0736,
+          "min": 0.0,
+          "max": 0.215
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.0254,
+          "min": 0.0,
+          "max": 0.186
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.0077,
+          "min": 0.0,
+          "max": 0.023
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "stable_screen_engagement_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.192,
+          "min": 0.028,
+          "max": 0.384
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.246,
+          "min": 0.051,
+          "max": 0.65
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.2058,
+          "min": 0.078,
+          "max": 0.418
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "active_hand_device_interaction_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.167,
+          "min": 0.045,
+          "max": 0.288
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.1669,
+          "min": 0.079,
+          "max": 0.311
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.0855,
+          "min": 0.05,
+          "max": 0.124
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "device_region_activity_ratio": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 0.1074,
+          "min": 0.028,
+          "max": 0.215
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.1473,
+          "min": 0.079,
+          "max": 0.254
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.0828,
+          "min": 0.045,
+          "max": 0.119
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "repetitive_operation_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 2.8,
+          "min": 0.0,
+          "max": 9.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.0714,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.1667,
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "temporal_engagement_episode_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 18.4,
+          "min": 3.0,
+          "max": 37.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 17.3571,
+          "min": 1.0,
+          "max": 34.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 17.8333,
+          "min": 10.0,
+          "max": 25.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "temporal_active_operation_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 4.6,
+          "min": 0.0,
+          "max": 15.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.5714,
+          "min": 0.0,
+          "max": 5.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 1.0,
+          "min": 0.0,
+          "max": 3.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "temporal_direct_operation_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 2.8,
+          "min": 0.0,
+          "max": 9.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.0714,
+          "min": 0.0,
+          "max": 1.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.1667,
+          "min": 0.0,
+          "max": 1.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "temporal_repetitive_operation_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 1.4,
+          "min": 0.0,
+          "max": 7.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 0.0,
+          "min": 0.0,
+          "max": 0.0
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "temporal_stable_screen_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 29.4,
+          "min": 4.0,
+          "max": 53.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 38.7857,
+          "min": 2.0,
+          "max": 112.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 35.5,
+          "min": 13.0,
+          "max": 74.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "temporal_visible_without_engagement_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 63.4,
+          "min": 45.0,
+          "max": 100.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 45.2857,
+          "min": 2.0,
+          "max": 121.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 40.6667,
+          "min": 18.0,
+          "max": 92.0
+        }
+      },
+      "direction": "monotonic_decreasing_with_label"
+    },
+    "temporal_confounded_activity_point_count": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 5,
+          "mean": 9.8,
+          "min": 2.0,
+          "max": 23.0
+        },
+        "mild_risk": {
+          "count": 14,
+          "mean": 13.0,
+          "min": 0.0,
+          "max": 37.0
+        },
+        "moderate_risk": {
+          "count": 6,
+          "mean": 8.0,
+          "min": 2.0,
+          "max": 15.0
+        }
+      },
+      "direction": "mixed_or_non_monotonic"
+    },
+    "trace_risk_pattern_score": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_stable_engagement_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_active_operation_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_direct_operation_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_repetitive_operation_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_visible_without_engagement_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    },
+    "trace_confounded_activity_share": {
+      "by_label": {
+        "no_observed_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "mild_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        },
+        "moderate_risk": {
+          "count": 0,
+          "mean": null,
+          "min": null,
+          "max": null
+        }
+      },
+      "direction": "insufficient_labels"
+    }
+  },
+  "categorical_feature_summaries": {
+    "extractor": {
+      "by_label": {
+        "no_observed_risk": {},
+        "mild_risk": {},
+        "moderate_risk": {}
+      }
+    },
+    "temporal_main_observation_pattern": {
+      "by_label": {
+        "no_observed_risk": {
+          "limited_engagement_proxy_observed": 4,
+          "repetitive_operation_observed": 1
+        },
+        "mild_risk": {
+          "limited_engagement_proxy_observed": 9,
+          "passive_screen_engagement_dominant": 5
+        },
+        "moderate_risk": {
+          "limited_engagement_proxy_observed": 5,
+          "passive_screen_engagement_dominant": 1
+        }
+      }
+    },
+    "temporal_signal_strength": {
+      "by_label": {
+        "no_observed_risk": {
+          "mild_video_proxy_signal": 3,
+          "insufficient_video_proxy_signal": 1,
+          "weak_video_proxy_signal": 1
+        },
+        "mild_risk": {
+          "mild_video_proxy_signal": 11,
+          "weak_video_proxy_signal": 3
+        },
+        "moderate_risk": {
+          "mild_video_proxy_signal": 3,
+          "weak_video_proxy_signal": 3
+        }
+      }
+    },
+    "trace_risk_pattern_strength": {
+      "by_label": {
+        "no_observed_risk": {},
+        "mild_risk": {},
+        "moderate_risk": {}
+      }
+    },
+    "trace_ordinary_use_pattern": {
+      "by_label": {
+        "no_observed_risk": {},
+        "mild_risk": {},
+        "moderate_risk": {}
+      }
+    }
+  },
+  "discordant_samples": [
+    {
+      "sample_id": "evidence_internal_p000004",
+      "target_label": "moderate_risk",
+      "flags": [
+        "risk_label_but_low_video_behavior_signal"
+      ],
+      "trace_risk_pattern_score": null,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 15.0
+    },
+    {
+      "sample_id": "evidence_internal_p000005",
+      "target_label": "no_observed_risk",
+      "flags": [
+        "no_label_but_active_or_repetitive_video_signal"
+      ],
+      "trace_risk_pattern_score": null,
+      "temporal_active_operation_point_count": 15.0,
+      "temporal_direct_operation_point_count": 9.0,
+      "temporal_repetitive_operation_point_count": 7.0,
+      "temporal_stable_screen_point_count": 53.0
+    },
+    {
+      "sample_id": "evidence_internal_p000021",
+      "target_label": "no_observed_risk",
+      "flags": [
+        "no_label_but_active_or_repetitive_video_signal"
+      ],
+      "trace_risk_pattern_score": null,
+      "temporal_active_operation_point_count": 5.0,
+      "temporal_direct_operation_point_count": 4.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 29.0
+    }
+  ],
+  "per_sample_rows": [
+    {
+      "sample_id": "evidence_internal_p000001",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.559,
+      "hand_visible_ratio": 0.023,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.153,
+      "active_hand_device_interaction_ratio": 0.153,
+      "device_region_activity_ratio": 0.153,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 17.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 27.0,
+      "temporal_visible_without_engagement_point_count": 49.0,
+      "temporal_confounded_activity_point_count": 22.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000002",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.531,
+      "hand_visible_ratio": 0.0,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.271,
+      "active_hand_device_interaction_ratio": 0.119,
+      "device_region_activity_ratio": 0.119,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 24.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 48.0,
+      "temporal_visible_without_engagement_point_count": 26.0,
+      "temporal_confounded_activity_point_count": 15.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000003",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.328,
+      "hand_visible_ratio": 0.023,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.169,
+      "active_hand_device_interaction_ratio": 0.079,
+      "device_region_activity_ratio": 0.079,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 17.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 30.0,
+      "temporal_visible_without_engagement_point_count": 21.0,
+      "temporal_confounded_activity_point_count": 5.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000004",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 176.0,
+      "device_visible_ratio": 0.256,
+      "hand_visible_ratio": 0.006,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.085,
+      "active_hand_device_interaction_ratio": 0.051,
+      "device_region_activity_ratio": 0.051,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 12.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 15.0,
+      "temporal_visible_without_engagement_point_count": 22.0,
+      "temporal_confounded_activity_point_count": 7.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000005",
+      "target_label": "no_observed_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.661,
+      "hand_visible_ratio": 0.367,
+      "hand_device_proximity_ratio": 0.215,
+      "stable_screen_engagement_ratio": 0.384,
+      "active_hand_device_interaction_ratio": 0.288,
+      "device_region_activity_ratio": 0.119,
+      "repetitive_operation_count": 9.0,
+      "temporal_engagement_episode_count": 37.0,
+      "temporal_active_operation_point_count": 15.0,
+      "temporal_direct_operation_point_count": 9.0,
+      "temporal_repetitive_operation_point_count": 7.0,
+      "temporal_stable_screen_point_count": 53.0,
+      "temporal_visible_without_engagement_point_count": 45.0,
+      "temporal_confounded_activity_point_count": 2.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "repetitive_operation_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000006",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.802,
+      "hand_visible_ratio": 0.011,
+      "hand_device_proximity_ratio": 0.006,
+      "stable_screen_engagement_ratio": 0.051,
+      "active_hand_device_interaction_ratio": 0.09,
+      "device_region_activity_ratio": 0.085,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 5.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 9.0,
+      "temporal_visible_without_engagement_point_count": 121.0,
+      "temporal_confounded_activity_point_count": 6.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000007",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 178.0,
+      "device_visible_ratio": 0.551,
+      "hand_visible_ratio": 0.045,
+      "hand_device_proximity_ratio": 0.017,
+      "stable_screen_engagement_ratio": 0.281,
+      "active_hand_device_interaction_ratio": 0.056,
+      "device_region_activity_ratio": 0.056,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 25.0,
+      "temporal_active_operation_point_count": 3.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 47.0,
+      "temporal_visible_without_engagement_point_count": 43.0,
+      "temporal_confounded_activity_point_count": 2.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000008",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.712,
+      "hand_visible_ratio": 0.073,
+      "hand_device_proximity_ratio": 0.023,
+      "stable_screen_engagement_ratio": 0.102,
+      "active_hand_device_interaction_ratio": 0.124,
+      "device_region_activity_ratio": 0.113,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 11.0,
+      "temporal_active_operation_point_count": 2.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 16.0,
+      "temporal_visible_without_engagement_point_count": 92.0,
+      "temporal_confounded_activity_point_count": 12.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000009",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 179.0,
+      "device_visible_ratio": 0.218,
+      "hand_visible_ratio": 0.067,
+      "hand_device_proximity_ratio": 0.006,
+      "stable_screen_engagement_ratio": 0.078,
+      "active_hand_device_interaction_ratio": 0.05,
+      "device_region_activity_ratio": 0.045,
+      "repetitive_operation_count": 1.0,
+      "temporal_engagement_episode_count": 10.0,
+      "temporal_active_operation_point_count": 1.0,
+      "temporal_direct_operation_point_count": 1.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 13.0,
+      "temporal_visible_without_engagement_point_count": 18.0,
+      "temporal_confounded_activity_point_count": 3.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000010",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.531,
+      "hand_visible_ratio": 0.04,
+      "hand_device_proximity_ratio": 0.006,
+      "stable_screen_engagement_ratio": 0.203,
+      "active_hand_device_interaction_ratio": 0.147,
+      "device_region_activity_ratio": 0.147,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 22.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 36.0,
+      "temporal_visible_without_engagement_point_count": 40.0,
+      "temporal_confounded_activity_point_count": 14.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000011",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.633,
+      "hand_visible_ratio": 0.011,
+      "hand_device_proximity_ratio": 0.006,
+      "stable_screen_engagement_ratio": 0.316,
+      "active_hand_device_interaction_ratio": 0.147,
+      "device_region_activity_ratio": 0.141,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 30.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 56.0,
+      "temporal_visible_without_engagement_point_count": 36.0,
+      "temporal_confounded_activity_point_count": 19.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000012",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 40.0,
+      "device_visible_ratio": 0.45,
+      "hand_visible_ratio": 0.125,
+      "hand_device_proximity_ratio": 0.05,
+      "stable_screen_engagement_ratio": 0.2,
+      "active_hand_device_interaction_ratio": 0.275,
+      "device_region_activity_ratio": 0.25,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 3.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 8.0,
+      "temporal_visible_without_engagement_point_count": 3.0,
+      "temporal_confounded_activity_point_count": 6.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000013",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 123.0,
+      "device_visible_ratio": 0.455,
+      "hand_visible_ratio": 0.0,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.065,
+      "active_hand_device_interaction_ratio": 0.089,
+      "device_region_activity_ratio": 0.089,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 6.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 8.0,
+      "temporal_visible_without_engagement_point_count": 38.0,
+      "temporal_confounded_activity_point_count": 7.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000014",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 12.0,
+      "device_visible_ratio": 0.333,
+      "hand_visible_ratio": 0.0,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.167,
+      "active_hand_device_interaction_ratio": 0.083,
+      "device_region_activity_ratio": 0.083,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 1.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 2.0,
+      "temporal_visible_without_engagement_point_count": 2.0,
+      "temporal_confounded_activity_point_count": 0.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000015",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 176.0,
+      "device_visible_ratio": 0.648,
+      "hand_visible_ratio": 0.0,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.301,
+      "active_hand_device_interaction_ratio": 0.244,
+      "device_region_activity_ratio": 0.244,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 19.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 53.0,
+      "temporal_visible_without_engagement_point_count": 35.0,
+      "temporal_confounded_activity_point_count": 24.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000016",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.757,
+      "hand_visible_ratio": 0.079,
+      "hand_device_proximity_ratio": 0.011,
+      "stable_screen_engagement_ratio": 0.186,
+      "active_hand_device_interaction_ratio": 0.26,
+      "device_region_activity_ratio": 0.254,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 23.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 33.0,
+      "temporal_visible_without_engagement_point_count": 61.0,
+      "temporal_confounded_activity_point_count": 37.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000017",
+      "target_label": "moderate_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.723,
+      "hand_visible_ratio": 0.011,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.418,
+      "active_hand_device_interaction_ratio": 0.113,
+      "device_region_activity_ratio": 0.113,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 25.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 74.0,
+      "temporal_visible_without_engagement_point_count": 43.0,
+      "temporal_confounded_activity_point_count": 9.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000018",
+      "target_label": "no_observed_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.345,
+      "hand_visible_ratio": 0.034,
+      "hand_device_proximity_ratio": 0.017,
+      "stable_screen_engagement_ratio": 0.028,
+      "active_hand_device_interaction_ratio": 0.045,
+      "device_region_activity_ratio": 0.028,
+      "repetitive_operation_count": 1.0,
+      "temporal_engagement_episode_count": 3.0,
+      "temporal_active_operation_point_count": 1.0,
+      "temporal_direct_operation_point_count": 1.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 4.0,
+      "temporal_visible_without_engagement_point_count": 51.0,
+      "temporal_confounded_activity_point_count": 2.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "insufficient_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000019",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.734,
+      "hand_visible_ratio": 0.011,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.085,
+      "active_hand_device_interaction_ratio": 0.102,
+      "device_region_activity_ratio": 0.102,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 9.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 15.0,
+      "temporal_visible_without_engagement_point_count": 99.0,
+      "temporal_confounded_activity_point_count": 14.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000020",
+      "target_label": "no_observed_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.695,
+      "hand_visible_ratio": 0.023,
+      "hand_device_proximity_ratio": 0.0,
+      "stable_screen_engagement_ratio": 0.26,
+      "active_hand_device_interaction_ratio": 0.079,
+      "device_region_activity_ratio": 0.079,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 22.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 46.0,
+      "temporal_visible_without_engagement_point_count": 64.0,
+      "temporal_confounded_activity_point_count": 11.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000021",
+      "target_label": "no_observed_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.836,
+      "hand_visible_ratio": 0.136,
+      "hand_device_proximity_ratio": 0.113,
+      "stable_screen_engagement_ratio": 0.192,
+      "active_hand_device_interaction_ratio": 0.203,
+      "device_region_activity_ratio": 0.096,
+      "repetitive_operation_count": 4.0,
+      "temporal_engagement_episode_count": 20.0,
+      "temporal_active_operation_point_count": 5.0,
+      "temporal_direct_operation_point_count": 4.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 29.0,
+      "temporal_visible_without_engagement_point_count": 100.0,
+      "temporal_confounded_activity_point_count": 11.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000022",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.774,
+      "hand_visible_ratio": 0.045,
+      "hand_device_proximity_ratio": 0.023,
+      "stable_screen_engagement_ratio": 0.412,
+      "active_hand_device_interaction_ratio": 0.203,
+      "device_region_activity_ratio": 0.181,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 26.0,
+      "temporal_active_operation_point_count": 0.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 73.0,
+      "temporal_visible_without_engagement_point_count": 46.0,
+      "temporal_confounded_activity_point_count": 14.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000023",
+      "target_label": "no_observed_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.616,
+      "hand_visible_ratio": 0.04,
+      "hand_device_proximity_ratio": 0.023,
+      "stable_screen_engagement_ratio": 0.096,
+      "active_hand_device_interaction_ratio": 0.22,
+      "device_region_activity_ratio": 0.215,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 10.0,
+      "temporal_active_operation_point_count": 2.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 15.0,
+      "temporal_visible_without_engagement_point_count": 57.0,
+      "temporal_confounded_activity_point_count": 23.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "limited_engagement_proxy_observed",
+      "temporal_signal_strength": "weak_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000024",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.91,
+      "hand_visible_ratio": 0.215,
+      "hand_device_proximity_ratio": 0.186,
+      "stable_screen_engagement_ratio": 0.65,
+      "active_hand_device_interaction_ratio": 0.311,
+      "device_region_activity_ratio": 0.147,
+      "repetitive_operation_count": 0.0,
+      "temporal_engagement_episode_count": 31.0,
+      "temporal_active_operation_point_count": 3.0,
+      "temporal_direct_operation_point_count": 0.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 112.0,
+      "temporal_visible_without_engagement_point_count": 34.0,
+      "temporal_confounded_activity_point_count": 9.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    },
+    {
+      "sample_id": "evidence_internal_p000025",
+      "target_label": "mild_risk",
+      "sampled_frame_count": 177.0,
+      "device_visible_ratio": 0.814,
+      "hand_visible_ratio": 0.113,
+      "hand_device_proximity_ratio": 0.068,
+      "stable_screen_engagement_ratio": 0.486,
+      "active_hand_device_interaction_ratio": 0.153,
+      "device_region_activity_ratio": 0.107,
+      "repetitive_operation_count": 1.0,
+      "temporal_engagement_episode_count": 34.0,
+      "temporal_active_operation_point_count": 5.0,
+      "temporal_direct_operation_point_count": 1.0,
+      "temporal_repetitive_operation_point_count": 0.0,
+      "temporal_stable_screen_point_count": 81.0,
+      "temporal_visible_without_engagement_point_count": 49.0,
+      "temporal_confounded_activity_point_count": 5.0,
+      "trace_risk_pattern_score": null,
+      "trace_stable_engagement_share": null,
+      "trace_active_operation_share": null,
+      "trace_direct_operation_share": null,
+      "trace_repetitive_operation_share": null,
+      "trace_visible_without_engagement_share": null,
+      "trace_confounded_activity_share": null,
+      "extractor": null,
+      "temporal_main_observation_pattern": "passive_screen_engagement_dominant",
+      "temporal_signal_strength": "mild_video_proxy_signal",
+      "trace_risk_pattern_strength": null,
+      "trace_ordinary_use_pattern": null
+    }
+  ]
+}

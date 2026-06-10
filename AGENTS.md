@@ -13,10 +13,13 @@ The project is intended for an AAAI AI for Social Impact style submission.
 At the start of a session in this repo, read:
 
 1. `README.md`
-2. `docs/aaai_aisi_submission_plan.md`
-3. `docs/video_to_text_preprocessor_design.md`
+2. `docs/advisor_brief.md`
+3. `docs/privte_preprocessor_implementation_plan.md`
 
-These files contain the project framing, terminology, ethical boundaries, and current paper plan.
+These files contain the active project framing, terminology, ethical
+boundaries, and current advisor-facing plan. Archived historical plans live
+under `archive/legacy_2026_06_10/` and should not be treated as the active
+method line.
 
 ## Core Names
 

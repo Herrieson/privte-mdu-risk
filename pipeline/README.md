@@ -53,38 +53,6 @@ uv run python pipeline/build_evidence.py \
   --extractor manifest_only
 ```
 
-Simple video-quality extractor:
-
-```bash
-uv run python pipeline/build_evidence.py \
-  --person-manifest data/manifests/internal_person_manifest.6_1data.v0.labeled.jsonl \
-  --output-dir outputs/pipeline/6_1data_simple_video_quality \
-  --subset-name 6.1data \
-  --extractor simple_video_quality
-```
-
-PriVTE-FlowLite extractor:
-
-```bash
-uv run python pipeline/build_evidence.py \
-  --person-manifest data/manifests/internal_person_manifest.6_1data.v0.labeled.jsonl \
-  --output-dir outputs/pipeline/6_1data_privte_flowlite \
-  --subset-name 6.1data \
-  --extractor privte_flowlite \
-  --extractor-config configs/algorithms/privte_flowlite.v0.json
-```
-
-PriVTE-Behavior v1 extractor:
-
-```bash
-uv run python pipeline/build_evidence.py \
-  --person-manifest data/manifests/internal_person_manifest.6_1data.v0.labeled.jsonl \
-  --output-dir outputs/pipeline/6_1data_privte_behavior_v1 \
-  --subset-name 6.1data \
-  --extractor privte_behavior_v1 \
-  --extractor-config configs/algorithms/privte_behavior.v1.json
-```
-
 ## Outputs
 
 ```text
@@ -101,48 +69,31 @@ outputs/pipeline/<run>/evidence_text/*.txt
 - reports modality availability and missing evidence;
 - does not compute visual proxy features.
 
-`simple_video_quality` in `privte_pipeline/algorithms/simple_video_quality.py`
+`privte_preprocessor_v0` in
+`privte_pipeline/algorithms/privte_preprocessor_v0.py`
 
-- computes video availability and file-size distributions;
-- optionally reads video container metadata through OpenCV when available;
-- falls back to a pure Python MP4 box parser when OpenCV is unavailable;
-- reports coarse duration, resolution, and FPS distributions;
-- does not output frames, images, audio, OCR, ASR, questionnaire answers, app
-  names, or exact heart-rate values.
+- establishes the active `session_metadata + global_features + event_windows`
+  evidence schema;
+- runs local frame sampling from coverage windows;
+- computes lightweight device/screen visibility, face observability,
+  frame-difference motion, interaction-proxy, posture-proxy, and quality fields;
+- emits event windows with relative time periods, proxy evidence, quality
+  metrics, privacy flags, and deterministic text rendering;
+- remains the integration point for stronger hand, gaze, blink, AU, and
+  listener modules.
 
-`privte_flowlite` in `privte_pipeline/algorithms/flowlite.py`
+Old FlowLite, Behavior, Trace, and simple-video-quality modules were archived
+under `archive/legacy_2026_06_10/methods/`. They are not active extractors.
 
-- samples video frames locally with OpenCV;
-- selects coverage/event/quality evidence through frame-level aggregation;
-- uses face ROI, screen-like bright-rectangle ROI, and frame-difference motion;
-- normalizes motion bursts against within-person median motion;
-- emits only coarse ratios, bins, event types, behavior proxy observations, and
-  quality summaries;
-- builds LLM-ready evidence for device-use observability, sustained screen
-  engagement proxy, active device interaction proxy, repetitive operation proxy,
-  posture/context change proxy, and explicitly missing gaze/affect/fatigue
-  evidence;
-- does not output frames, crops, coordinates, OCR/ASR, face embeddings,
-  high-dimensional landmarks, app names, questionnaire answers, or exact
-  heart-rate values.
+The next active extractor should be rebuilt around the fixed schema:
 
-`privte_behavior_v1` in `privte_pipeline/algorithms/behavior_v1.py`
-
-- uses OpenCV for local frame decoding and motion proxies;
-- uses MediaPipe Hands, Face Mesh, and Pose when dependencies are installed;
-- uses Ultralytics YOLO for device-like object detection when available, with a
-  screen-like heuristic fallback;
-- extracts device observability, short-interval device-region activity,
-  hand-device interaction proxy, repetitive operation proxy, face-device context
-  observability, stable engagement proxy, and posture/context change proxy;
-- emits only coarse ratios, bins, event types, quality summaries, and
-  LLM-ready behavior observations;
-- requires the configured MediaPipe `.task` model files for real behavior
-  output; metadata fallback is only for plumbing checks and should produce
-  insufficient-evidence text;
-- does not output frames, crops, coordinates, masks, OCR/ASR, face embeddings,
-  high-dimensional landmarks, app names, questionnaire answers, or exact
-  heart-rate values.
+```text
+global_features
+event_windows
+quality_summary
+limitations
+privacy_processing_summary
+```
 
 ## Evidence Contract
 
@@ -168,11 +119,8 @@ text_evidence            # human-readable rendering of llm_evidence_package
 This lets later work replace only the extractor with a fuller PriVTE algorithm:
 
 ```text
-simple_video_quality    # current runnable algorithm baseline
-privte_flowlite         # OpenCV frame-level PriVTE protocol MVP
-privte_behavior_v1      # MediaPipe + YOLO practical behavior proxy extractor
-video_proxy_v0          # stronger face/hand/device visibility + interaction proxies
-privte_v1               # key-window + ROI + proxy-feature extractor
+manifest_only           # current schema/data-flow baseline
+privte_preprocessor_v0  # active frame-proxy preprocessor MVP
 ```
 
 ## Adding Algorithms

@@ -1,0 +1,105 @@
+样本编号: evidence_internal_p000014
+任务: Text-only Minor Digital Use Risk Screening
+任务说明: 基于 PriVTE 生成的隐私过滤视频行为证据，判断未成年人数字设备使用风险等级。
+边界: 这是风险筛查输出，不是医学诊断或成瘾诊断。
+允许风险等级: no_observed_risk, mild_risk, moderate_risk, high_risk, insufficient_evidence
+
+模型判定规则:
+- 只能使用本 evidence package 中的文本证据。
+- 不要推断证据包未呈现的视频、音频、问卷、心率或应用信息。
+- 不要把行为证据解释为医学诊断、心理状态确认或成瘾结论。
+- 证据质量、可见性或关键行为证据不足时，应降低置信度并考虑 insufficient_evidence。
+- 输出必须说明支持证据、降低确定性的证据、缺失信息和是否需要人工复核。
+
+风险筛查 rubric:
+- no_observed_risk: 未观察到持续屏幕参与、频繁交互、重复操作或跨窗口一致的风险性行为证据，且证据质量足够。
+- mild_risk: 存在局部或轻度风险性使用迹象，但强度、持续性、重复性或一致性有限。
+- moderate_risk: 同时存在较持续参与、较高交互密度、重复操作或多个事件窗口一致的风险性使用模式。
+- high_risk: 证据显示强持续参与、强重复交互和多窗口一致的风险性使用模式；仍需人工复核，不能视为诊断。
+- insufficient_evidence: 证据包内部质量、可见性、关键行为指标或覆盖度不足，无法支持可靠筛查判断。
+
+观察范围:
+- 模型输入模态: privacy_filtered_video_text
+- 视频状态: preprocessor_v0_frame_proxy_analysis
+- 视频片段数量: 1
+- 已分析视频片段: 1
+- 已抽样分析帧数: 6
+- 覆盖位置计数: global=1
+- 证据质量总评: adequate_for_frame_proxy_analysis
+
+会话元数据:
+- session_id: ANON_340BB2EDCB
+- total_valid_duration_minutes: 0
+- duration_bin: <5min
+- valid_observation_duration_bin: <5min
+- analyzed_window_count: 1
+- event_window_count: 1
+- privacy_processing_summary: [raw video remains local to the preprocessing environment, video frames are sampled locally and immediately compressed into low-dimensional proxy facts, event windows are represented by relative time periods and coarse categories only, raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed]
+
+全局统计信息:
+- screen_gaze_ratio: 0.0
+- screen_gaze_ratio_bin: none
+- max_continuous_gaze_duration_minutes: 0
+- max_continuous_gaze_duration_bin: none
+- average_blink_rate_per_minute: unknown
+- blink_rate_level: not_computed
+- blink_rate_trend: not_computed
+- overall_posture_trend: mostly_visible_not_close_proxy
+- interaction_intensity: None
+- repetitive_operation_level: low
+- motion_confounding_level: high
+- device_visibility_level: none
+- stable_screen_context_level: none
+- event_window_count: 1
+
+事件窗口:
+- Event_01: window_order=1, relative_position=global, relative_time_period=00:00 - 01:00, duration_bin=30-90s, trigger_type=motion_confounding, trigger_label=Motion_Confounding, trigger_source=motion_confounder_listener, proxy_evidence={interaction=None interaction proxy, but high global motion may confound local interaction interpretation, posture=Face is visible without strong close-to-screen proxy, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=None, interaction_pattern=global_motion_may_confound_interaction, posture_state=visible_not_close_proxy, gaze_state=not_computed, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=none, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.333, hand_visibility_ratio=unknown, occlusion=limited_face_visibility, face_visibility_level=low, hand_visibility_level=not_computed, device_visibility_level=none, lighting_quality=Sufficient, occlusion_level=limited_face_visibility, event_confidence=medium}
+
+质量摘要:
+- overall_data_sufficiency: adequate_for_frame_proxy_analysis
+- face_observability: very_high
+- hand_observability: not_computed
+- device_observability: none
+- gaze_estimation_quality: medium_proxy_only
+- multi_person_interference: none_detected
+- motion_confounding_level: high
+- limitations: [preprocessor_v0_uses_lightweight_frame_proxies, screen_or_device_visibility_is_heuristic, interaction_intensity_is_motion_proxy_not_touch_detection]
+
+限制说明:
+- preprocessor_v0_uses_lightweight_frame_proxies
+- screen_or_device_visibility_is_heuristic
+- interaction_intensity_is_motion_proxy_not_touch_detection
+- screen_gaze_ratio_is_proxy_based_not_eye_tracking
+- blink_rate_not_computed_yet
+- facial_action_units_not_computed_yet
+- hand_visibility_not_computed_without_hand_landmarks
+- not_for_diagnosis
+
+缺失信息:
+- hand_landmark_visibility
+- exact_eye_tracking
+- blink_or_facial_action_proxy
+
+隐私处理:
+- raw_video_included: false
+- raw_images_included: false
+- raw_audio_included: false
+- ocr_text_included: false
+- asr_text_included: false
+- exact_timestamps_included: false
+- high_frequency_coordinates_included: false
+- face_embeddings_included: false
+- screen_content_included: false
+- questionnaire_answers_included: false
+- exact_heart_rate_values_included: false
+- app_names_included: false
+- raw_paths_included: false
+- processing_steps: [raw video remains local to the preprocessing environment, video frames are sampled locally and immediately compressed into low-dimensional proxy facts, event windows are represented by relative time periods and coarse categories only, raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed]
+
+要求模型输出 JSON:
+- risk_level: ['no_observed_risk', 'mild_risk', 'moderate_risk', 'high_risk', 'insufficient_evidence']
+- confidence: ['low', 'medium', 'high']
+- supporting_evidence: list[str]
+- uncertainty_or_counter_evidence: list[str]
+- missing_information: list[str]
+- needs_human_review: bool

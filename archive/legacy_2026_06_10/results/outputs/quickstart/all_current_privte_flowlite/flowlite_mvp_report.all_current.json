@@ -1,0 +1,41 @@
+{
+  "schema_version": "privte_pipeline_report.v0",
+  "source_subset": "all_current",
+  "generated_at_utc": "2026-06-09T10:17:50.272985+00:00",
+  "output_jsonl": "outputs/quickstart/all_current_privte_flowlite/flowlite_mvp_evidence.all_current.jsonl",
+  "extractor": {
+    "name": "privte_flowlite",
+    "version": "v0",
+    "feature_schema_version": "privte_flowlite_feature_schema.v0",
+    "config": {
+      "require_opencv": true,
+      "max_video_clips": 12,
+      "frames_per_clip": 8,
+      "analysis_width": 640,
+      "max_event_windows": 5,
+      "min_brightness": 35.0,
+      "max_brightness": 225.0,
+      "min_blur_score": 15.0,
+      "face_scale_factor": 1.1,
+      "face_min_neighbors": 5,
+      "screen_brightness_threshold": 145,
+      "screen_min_area_ratio": 0.015,
+      "screen_max_area_ratio": 0.75,
+      "screen_min_aspect": 0.3,
+      "screen_max_aspect": 3.5,
+      "motion_spike_multiplier": 1.8,
+      "motion_spike_delta": 8.0,
+      "motion_min_spike_threshold": 18.0
+    }
+  },
+  "records": 25,
+  "target_label_counts": {
+    "mild_risk": 14,
+    "moderate_risk": 6,
+    "no_observed_risk": 5
+  },
+  "records_with_video": 25,
+  "records_with_heart_rate": 16,
+  "records_with_questionnaire": 23,
+  "scope_note": "Extractor-swappable PriVTE evidence pipeline. The selected extractor defines the current feature depth."
+}

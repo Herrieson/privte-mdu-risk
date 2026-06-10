@@ -1,0 +1,37 @@
+{
+  "schema_version": "privte_pipeline_report.v0",
+  "source_subset": "6.1data",
+  "generated_at_utc": "2026-06-10T07:29:05.858772+00:00",
+  "output_jsonl": "outputs/quickstart/6_1data_privte_preprocessor_v0/preprocessor_v0_evidence.6_1data.jsonl",
+  "extractor": {
+    "name": "privte_preprocessor_v0",
+    "version": "v0",
+    "feature_schema_version": "privte_preprocessor_evidence.v0",
+    "config": {
+      "schema_version": "privte_preprocessor_config.v0",
+      "mode": "frame_proxy_preprocessor_v0",
+      "session_id_salt": "privte_preprocessor_v0",
+      "max_metadata_video_files": 128,
+      "coverage_window_count": 12,
+      "frames_per_coverage_window": 6,
+      "analysis_width": 320,
+      "max_event_windows": 8,
+      "local_motion_threshold": 0.035,
+      "global_motion_threshold": 0.05,
+      "notes": [
+        "This config runs local frame sampling and low-dimensional proxy evidence extraction.",
+        "Raw frames, raw paths, exact absolute timestamps, OCR, ASR, and app names are not emitted."
+      ]
+    }
+  },
+  "records": 11,
+  "target_label_counts": {
+    "mild_risk": 8,
+    "moderate_risk": 1,
+    "no_observed_risk": 2
+  },
+  "records_with_video": 11,
+  "records_with_heart_rate": 5,
+  "records_with_questionnaire": 9,
+  "scope_note": "Extractor-swappable PriVTE evidence pipeline. The selected extractor defines the current feature depth."
+}

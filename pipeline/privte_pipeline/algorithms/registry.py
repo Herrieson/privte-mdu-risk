@@ -5,10 +5,8 @@ from __future__ import annotations
 from typing import Any
 
 from ..core import EvidenceExtractor
-from .behavior_v1 import PriVTEBehaviorV1Extractor
-from .flowlite import PriVTEFlowLiteExtractor
 from .manifest_only import ManifestOnlyExtractor
-from .simple_video_quality import SimpleVideoQualityExtractor
+from .privte_preprocessor_v0 import PriVTEPreprocessorV0Extractor
 
 EXTRACTOR_REGISTRY: dict[str, type[EvidenceExtractor]] = {}
 
@@ -37,8 +35,6 @@ def build_extractor(name: str, config: dict[str, Any] | None = None) -> Evidence
 
 for _extractor_cls in (
     ManifestOnlyExtractor,
-    SimpleVideoQualityExtractor,
-    PriVTEFlowLiteExtractor,
-    PriVTEBehaviorV1Extractor,
+    PriVTEPreprocessorV0Extractor,
 ):
     register_extractor(_extractor_cls)

@@ -1,0 +1,91 @@
+{
+  "records": 25,
+  "valid_predictions": 20,
+  "invalid_predictions": 5,
+  "accuracy": 0.15,
+  "macro_f1_observed_labels": 0.1278,
+  "target_label_counts": {
+    "mild_risk": 14,
+    "moderate_risk": 6,
+    "no_observed_risk": 5
+  },
+  "predicted_label_counts": {
+    "<invalid>": 5,
+    "mild_risk": 3,
+    "moderate_risk": 12,
+    "high_risk": 5
+  },
+  "error_counts": {
+    "HTTP 400: {\n  \"error\": {\n    \"message\": \"Unsupported value: 'temperature' does not support 0.0 with this model. Only the default (1) value is supported.\",\n    \"type\": \"invalid_request_error\",\n    \"param\": \"temperature\",\n    \"code\": \"unsupported_value\"\n  }\n}": 2,
+    "HTTP 400: {\n  \"error\": {\n    \"message\": \"Unsupported value: 'temperature' does not support 0 with this model. Only the default (1) value is supported.\",\n    \"type\": \"invalid_request_error\",\n    \"param\": \"temperature\",\n    \"code\": \"unsupported_value\"\n  }\n}": 3
+  },
+  "per_label": {
+    "no_observed_risk": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 4
+    },
+    "mild_risk": {
+      "precision": 0.3333,
+      "recall": 0.0833,
+      "f1": 0.1333,
+      "support": 12
+    },
+    "moderate_risk": {
+      "precision": 0.1667,
+      "recall": 0.5,
+      "f1": 0.25,
+      "support": 4
+    },
+    "high_risk": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    },
+    "insufficient_evidence": {
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "support": 0
+    }
+  },
+  "confusion": {
+    "no_observed_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 0,
+      "moderate_risk": 2,
+      "high_risk": 2,
+      "insufficient_evidence": 0
+    },
+    "mild_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 1,
+      "moderate_risk": 8,
+      "high_risk": 3,
+      "insufficient_evidence": 0
+    },
+    "moderate_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 2,
+      "moderate_risk": 2,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "high_risk": {
+      "no_observed_risk": 0,
+      "mild_risk": 0,
+      "moderate_risk": 0,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    },
+    "insufficient_evidence": {
+      "no_observed_risk": 0,
+      "mild_risk": 0,
+      "moderate_risk": 0,
+      "high_risk": 0,
+      "insufficient_evidence": 0
+    }
+  }
+}

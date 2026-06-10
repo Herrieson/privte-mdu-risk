@@ -2,7 +2,7 @@
 
 Privacy-preserving Video-to-Text Evidence Encoding for Minor Digital Use Risk Screening.
 
-PriVTE is a research project for AAAI AI for Social Impact style work. The project studies how to transform sensitive long-form videos of minors' digital device use into structured, privacy-filtered textual evidence, so text-only LLMs and supervised baselines can perform risk screening without accessing raw videos, images, or audio.
+PriVTE is a research project for AAAI AI for Social Impact style work. The project studies how to transform sensitive long-form videos of minors' digital device use into structured, privacy-filtered textual evidence, so text-only LLMs can perform risk screening without accessing raw videos, images, or audio.
 
 ## Core Positioning
 
@@ -45,7 +45,7 @@ Raw Sensitive Video
   -> Reference-sequence Normalization
   -> Quality Estimation
   -> Privacy-aware Text Generation
-  -> Text-only LLM / Text Classifier
+  -> Text-only LLM
 ```
 
 The method should prefer deterministic structured evidence over free-form video captions:
@@ -109,22 +109,31 @@ Recommended AAAI AISI story:
 Social problem + privacy-preserving data release + text-only LLM benchmark + responsible AI workflow
 ```
 
-Avoid making it sound like a generic video classifier.
+Avoid making it sound like a generic video classification task.
 
 ## Current Planning Documents
 
-- [AAAI AISI submission plan](docs/aaai_aisi_submission_plan.md)
-- [Video-to-text preprocessor design](docs/video_to_text_preprocessor_design.md)
+- [Advisor brief](docs/advisor_brief.md)
+- [Preprocessor implementation plan](docs/privte_preprocessor_implementation_plan.md)
+
+Older FlowLite, Behavior, Trace, paper-plan, and experiment-result artifacts
+have been archived under `archive/legacy_2026_06_10/`. The active method line is
+being rebuilt around a clean evidence schema with:
+
+```text
+global_features
+event_windows
+quality_summary
+limitations
+privacy_processing_summary
+```
 
 ## Immediate Next Steps
 
-1. Freeze the task definition, label names, and text schema.
-2. Write the dataset card and ethics/release policy.
-3. Implement a minimal PriVTE pipeline that can generate JSON and templated text from extracted features.
-4. Build `MDU-RiskText` public-lite format.
-5. Run baseline experiments: traditional classifiers, small LLM, strong LLM.
-6. Run ablations: event windows, quality report, reference normalization, schema-first text vs free caption.
-7. Run privacy checks: PII scan, manual audit, field uniqueness analysis.
+1. Run direct text-only LLM experiments on the new schema.
+2. Analyze errors against labels before changing prompts.
+3. Add the next visual module only where the v0 evidence shows a real bottleneck
+   such as hand visibility, gaze proxy, blink proxy, or facial action units.
 
 ## Ethical Boundaries
 

@@ -1,0 +1,112 @@
+样本编号: evidence_internal_p000019
+任务: Text-only Minor Digital Use Risk Screening
+任务说明: 基于 PriVTE 生成的隐私过滤视频行为证据，判断未成年人数字设备使用风险等级。
+边界: 这是风险筛查输出，不是医学诊断或成瘾诊断。
+允许风险等级: no_observed_risk, mild_risk, moderate_risk, high_risk, insufficient_evidence
+
+模型判定规则:
+- 只能使用本 evidence package 中的文本证据。
+- 不要推断证据包未呈现的视频、音频、问卷、心率或应用信息。
+- 不要把行为证据解释为医学诊断、心理状态确认或成瘾结论。
+- 证据质量、可见性或关键行为证据不足时，应降低置信度并考虑 insufficient_evidence。
+- 输出必须说明支持证据、降低确定性的证据、缺失信息和是否需要人工复核。
+
+风险筛查 rubric:
+- no_observed_risk: 未观察到持续屏幕参与、频繁交互、重复操作或跨窗口一致的风险性行为证据，且证据质量足够。
+- mild_risk: 存在局部或轻度风险性使用迹象，但强度、持续性、重复性或一致性有限。
+- moderate_risk: 同时存在较持续参与、较高交互密度、重复操作或多个事件窗口一致的风险性使用模式。
+- high_risk: 证据显示强持续参与、强重复交互和多窗口一致的风险性使用模式；仍需人工复核，不能视为诊断。
+- insufficient_evidence: 证据包内部质量、可见性、关键行为指标或覆盖度不足，无法支持可靠筛查判断。
+
+观察范围:
+- 模型输入模态: privacy_filtered_video_text
+- 视频状态: preprocessor_v0_frame_proxy_analysis
+- 视频片段数量: 42
+- 已分析视频片段: 12
+- 已抽样分析帧数: 72
+- 覆盖位置计数: early=4, middle=4, late=4
+- 证据质量总评: adequate_for_frame_proxy_analysis
+
+会话元数据:
+- session_id: ANON_7F9320D6E2
+- total_valid_duration_minutes: 40
+- duration_bin: 30-45min
+- valid_observation_duration_bin: 30-45min
+- analyzed_window_count: 12
+- event_window_count: 8
+- privacy_processing_summary: [raw video remains local to the preprocessing environment, video frames are sampled locally and immediately compressed into low-dimensional proxy facts, event windows are represented by relative time periods and coarse categories only, raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed]
+
+全局统计信息:
+- screen_gaze_ratio: 0.0
+- screen_gaze_ratio_bin: none
+- max_continuous_gaze_duration_minutes: 0
+- max_continuous_gaze_duration_bin: none
+- average_blink_rate_per_minute: unknown
+- blink_rate_level: not_computed
+- blink_rate_trend: not_computed
+- overall_posture_trend: mostly_visible_not_close_proxy
+- interaction_intensity: High
+- repetitive_operation_level: high
+- motion_confounding_level: high
+- device_visibility_level: very_high
+- stable_screen_context_level: low
+- event_window_count: 8
+
+事件窗口:
+- Event_01: window_order=1, relative_position=early, relative_time_period=00:00 - 01:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=High lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Posture proxy not reliable in this window, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=High, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=not_computed, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=high, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.0, hand_visibility_ratio=unknown, occlusion=not_computed, face_visibility_level=none, hand_visibility_level=not_computed, device_visibility_level=high, lighting_quality=Sufficient, occlusion_level=not_computed, event_confidence=high}
+- Event_02: window_order=2, relative_position=early, relative_time_period=04:00 - 05:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=High lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Face appears large when visible; proxy suggests close-to-screen posture, facial_cues=Face visible, but blink rate and facial action units are not computed in v0, action_units_detected=[], interaction_intensity=High, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=close_to_screen_proxy, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=high, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.5, hand_visibility_ratio=unknown, occlusion=possible_partial_occlusion_or_pose_change, face_visibility_level=medium, hand_visibility_level=not_computed, device_visibility_level=high, lighting_quality=Sufficient, occlusion_level=possible_partial_occlusion_or_pose_change, event_confidence=high}
+- Event_03: window_order=3, relative_position=early, relative_time_period=07:00 - 08:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=Elevated lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Face appears large when visible; proxy suggests close-to-screen posture, facial_cues=Face visible, but blink rate and facial action units are not computed in v0, action_units_detected=[], interaction_intensity=Elevated, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=close_to_screen_proxy, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=medium, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.5, hand_visibility_ratio=unknown, occlusion=possible_partial_occlusion_or_pose_change, face_visibility_level=medium, hand_visibility_level=not_computed, device_visibility_level=medium, lighting_quality=Sufficient, occlusion_level=possible_partial_occlusion_or_pose_change, event_confidence=medium}
+- Event_04: window_order=5, relative_position=middle, relative_time_period=15:00 - 16:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=High lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Posture proxy not reliable in this window, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=High, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=not_computed, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=very_high, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.0, hand_visibility_ratio=unknown, occlusion=not_computed, face_visibility_level=none, hand_visibility_level=not_computed, device_visibility_level=very_high, lighting_quality=Sufficient, occlusion_level=not_computed, event_confidence=high}
+- Event_05: window_order=6, relative_position=middle, relative_time_period=19:00 - 20:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=Elevated lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Posture proxy not reliable in this window, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=Elevated, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=not_computed, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=medium, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.0, hand_visibility_ratio=unknown, occlusion=not_computed, face_visibility_level=none, hand_visibility_level=not_computed, device_visibility_level=medium, lighting_quality=Sufficient, occlusion_level=not_computed, event_confidence=medium}
+- Event_06: window_order=7, relative_position=middle, relative_time_period=22:00 - 23:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=High lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Posture proxy not reliable in this window, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=High, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=not_computed, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=high, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.0, hand_visibility_ratio=unknown, occlusion=not_computed, face_visibility_level=none, hand_visibility_level=not_computed, device_visibility_level=high, lighting_quality=Sufficient, occlusion_level=not_computed, event_confidence=high}
+- Event_07: window_order=8, relative_position=middle, relative_time_period=26:00 - 27:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=High lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Face appears large when visible; proxy suggests close-to-screen posture, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=High, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=close_to_screen_proxy, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=high, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.333, hand_visibility_ratio=unknown, occlusion=limited_face_visibility, face_visibility_level=low, hand_visibility_level=not_computed, device_visibility_level=high, lighting_quality=Sufficient, occlusion_level=limited_face_visibility, event_confidence=high}
+- Event_08: window_order=9, relative_position=late, relative_time_period=30:00 - 31:00, duration_bin=30-90s, trigger_type=high_interaction_intensity, trigger_label=High_Interaction_Intensity, trigger_source=interaction_motion_listener, proxy_evidence={interaction=Elevated lower-frame motion near visible device/screen-like region; interpreted only as a hand-device interaction proxy, posture=Posture proxy not reliable in this window, facial_cues=Facial cues not reliable because face visibility is low or unavailable, action_units_detected=[], interaction_intensity=Elevated, interaction_pattern=device_region_or_lower_frame_motion_proxy, posture_state=not_computed, gaze_state=device_visible_but_face_or_motion_proxy_insufficient, blink_rate_change=not_computed, facial_au_codes=[], device_visibility_level=medium, motion_confounding_level=high}, quality_metrics={face_visibility_ratio=0.0, hand_visibility_ratio=unknown, occlusion=not_computed, face_visibility_level=none, hand_visibility_level=not_computed, device_visibility_level=medium, lighting_quality=Sufficient, occlusion_level=not_computed, event_confidence=medium}
+
+质量摘要:
+- overall_data_sufficiency: adequate_for_frame_proxy_analysis
+- face_observability: low
+- hand_observability: not_computed
+- device_observability: very_high
+- gaze_estimation_quality: low_proxy_only
+- multi_person_interference: occasional_possible_interference
+- motion_confounding_level: high
+- limitations: [preprocessor_v0_uses_lightweight_frame_proxies, screen_or_device_visibility_is_heuristic, interaction_intensity_is_motion_proxy_not_touch_detection]
+
+限制说明:
+- preprocessor_v0_uses_lightweight_frame_proxies
+- screen_or_device_visibility_is_heuristic
+- interaction_intensity_is_motion_proxy_not_touch_detection
+- screen_gaze_ratio_is_proxy_based_not_eye_tracking
+- blink_rate_not_computed_yet
+- facial_action_units_not_computed_yet
+- hand_visibility_not_computed_without_hand_landmarks
+- not_for_diagnosis
+
+缺失信息:
+- hand_landmark_visibility
+- exact_eye_tracking
+- blink_or_facial_action_proxy
+
+隐私处理:
+- raw_video_included: false
+- raw_images_included: false
+- raw_audio_included: false
+- ocr_text_included: false
+- asr_text_included: false
+- exact_timestamps_included: false
+- high_frequency_coordinates_included: false
+- face_embeddings_included: false
+- screen_content_included: false
+- questionnaire_answers_included: false
+- exact_heart_rate_values_included: false
+- app_names_included: false
+- raw_paths_included: false
+- processing_steps: [raw video remains local to the preprocessing environment, video frames are sampled locally and immediately compressed into low-dimensional proxy facts, event windows are represented by relative time periods and coarse categories only, raw paths, absolute timestamps, OCR, ASR, app names, screen content, and raw media are suppressed]
+
+要求模型输出 JSON:
+- risk_level: ['no_observed_risk', 'mild_risk', 'moderate_risk', 'high_risk', 'insufficient_evidence']
+- confidence: ['low', 'medium', 'high']
+- supporting_evidence: list[str]
+- uncertainty_or_counter_evidence: list[str]
+- missing_information: list[str]
+- needs_human_review: bool
