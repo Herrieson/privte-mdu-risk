@@ -7,6 +7,8 @@ from typing import Any
 from ..core import EvidenceExtractor
 from .manifest_only import ManifestOnlyExtractor
 from .privte_preprocessor_v0 import PriVTEPreprocessorV0Extractor
+from .privte_preprocessor_v1 import PriVTEPreprocessorV1Extractor
+from .privte_preprocessor_v2 import PriVTEPreprocessorV2Extractor
 
 EXTRACTOR_REGISTRY: dict[str, type[EvidenceExtractor]] = {}
 
@@ -36,5 +38,7 @@ def build_extractor(name: str, config: dict[str, Any] | None = None) -> Evidence
 for _extractor_cls in (
     ManifestOnlyExtractor,
     PriVTEPreprocessorV0Extractor,
+    PriVTEPreprocessorV1Extractor,
+    PriVTEPreprocessorV2Extractor,
 ):
     register_extractor(_extractor_cls)

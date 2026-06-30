@@ -1,0 +1,39 @@
+{
+  "schema_version": "privte_preprocessor_config.v2",
+  "mode": "stateful_frame_proxy_preprocessor_v2",
+  "session_id_salt": "privte_preprocessor_v2",
+  "max_metadata_video_files": 128,
+  "coverage_window_count": 12,
+  "frames_per_coverage_window": 6,
+  "analysis_width": 320,
+  "enable_mediapipe_hands": true,
+  "enable_mediapipe_face_mesh": true,
+  "mediapipe_hand_model": "models/mediapipe/hand_landmarker.task",
+  "mediapipe_face_model": "models/mediapipe/face_landmarker.task",
+  "mediapipe_min_detection_confidence": 0.5,
+  "eye_closed_ear_threshold": 0.18,
+  "max_event_windows": 8,
+  "min_event_windows": 0,
+  "local_motion_threshold": 0.035,
+  "global_motion_threshold": 0.05,
+  "repetition_min_burst_count": 2,
+  "interaction_event_min_score": 3.4,
+  "device_region_event_min_score": 3.8,
+  "gaze_event_min_score": 3.2,
+  "stable_screen_event_min_score": 3.0,
+  "blink_event_min_score": 2.8,
+  "facial_event_min_score": 2.8,
+  "quality_event_min_score": 2.5,
+  "motion_confounding_high_ratio": 0.75,
+  "motion_confounding_elevated_ratio": 0.4,
+  "path_fallbacks": {
+    "data": "data.local_backup_before_mnt_link"
+  },
+  "notes": [
+    "V2 keeps V1 calibrated proxy thresholds and adds stateful behavior evidence.",
+    "Per-window states use only relative order, coarse categories, and low-dimensional proxy facts.",
+    "Behavior episodes summarize symbolic state streaks without exact timestamps or raw coordinates.",
+    "Evidence graph separates positive evidence, weak proxy evidence, counter-evidence, and quality limitations.",
+    "Raw frames, raw paths, exact absolute timestamps, OCR, ASR, app names, screen content, and raw media are not emitted."
+  ]
+}

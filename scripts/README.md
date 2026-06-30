@@ -131,3 +131,32 @@ uv run python scripts/audit_privacy_evidence.py \
 The audit targets `llm_evidence_package`, `text_evidence`, and
 `feature_blocks.preprocessor_evidence`. It does not treat internal manifests as
 public release artifacts.
+
+## `diagnose_results.py`
+
+Builds a diagnosis report from generated evidence JSONL and, optionally, an LLM
+prediction JSONL. Use this during the demo / component-selection phase to see
+whether current proxy evidence fields are discriminative, which fields are
+over-triggered, and which evidence patterns appear in false positives or false
+negatives.
+
+Example:
+
+```bash
+uv run python scripts/diagnose_results.py \
+  --evidence-jsonl outputs/quickstart/all_current_privte_preprocessor_v0_visual/evidence.all_current.jsonl \
+  --predictions-jsonl outputs/llm_baselines/all_current_privte_preprocessor_v0_visual/gpt_main_behavior_memo_v2/predictions.jsonl
+```
+
+Outputs:
+
+```text
+diagnosis_report.json   # metrics, majority baseline, feature distributions, error summaries
+sample_diagnosis.csv    # one row per sample with labels, predictions, features, event counts
+error_cases.csv         # wrong valid predictions only
+feature_crosstabs.csv   # feature value by target/predicted label counts
+```
+
+For V2 stateful evidence, the JSON report also includes `state_space_report`
+with per-window state diversity, dominant symbolic states, component value
+counts, and the most common state signatures.

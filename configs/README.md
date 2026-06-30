@@ -18,6 +18,8 @@ Current active configs:
 
 ```text
 configs/algorithms/privte_preprocessor.v0.json
+configs/algorithms/privte_preprocessor.v1.json
+configs/algorithms/privte_preprocessor.v2.json
 ```
 
 `privte_preprocessor.v0.json` controls the current frame-proxy MVP:
@@ -27,3 +29,12 @@ configs/algorithms/privte_preprocessor.v0.json
 - analysis resize width;
 - local/global motion thresholds;
 - maximum emitted event windows.
+
+`privte_preprocessor.v1.json` keeps the same public evidence schema but adds
+calibration knobs for thresholded event selection, conservative repetitive
+operation bins, and motion-confounding aggregation.
+
+`privte_preprocessor.v2.json` keeps the V1 calibrated visual proxies and adds
+stateful evidence settings for per-window symbolic states, behavior episodes,
+temporal trends, and separated positive / weak / counter / quality evidence
+facts.

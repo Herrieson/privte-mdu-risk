@@ -60,6 +60,10 @@ def _quality_summary(feature_blocks: dict[str, Any]) -> dict[str, Any]:
     return _as_dict(feature_blocks.get("quality_summary") or video.get("quality_summary"))
 
 
+def _stateful_behavior_summary(global_features: dict[str, Any]) -> dict[str, Any]:
+    return _as_dict(global_features.get("stateful_behavior_summary"))
+
+
 def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict[str, Any]:
     """Build a label-free, schema-first evidence package for LLM input."""
 
@@ -69,8 +73,9 @@ def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict
     quality = _quality_summary(feature_blocks)
     global_features = _global_features(feature_blocks)
     event_windows = _event_windows(feature_blocks)
+    stateful_behavior = _stateful_behavior_summary(global_features)
 
-    return {
+    package = {
         "schema_version": "mdu_riskbench_llm_evidence.v1",
         "sample_id": sample_id,
         "task": {
@@ -83,9 +88,9 @@ def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict
         },
         "decision_rules": [
             "只能使用本 evidence package 中的文本证据。",
-            "不要推断证据包未呈现的视频、音频、问卷、心率或应用信息。",
-            "不要把行为证据解释为医学诊断、心理状态确认或成瘾结论。",
-            "证据质量、可见性或关键行为证据不足时，应降低置信度并考虑 insufficient_evidence。",
+            "不要使用证据包未呈现的视频、音频、问卷、心率或应用信息。",
+            "按证据角色、窗口数量、持续性和质量字段综合判断风险等级。",
+            "关键行为证据或可见性不足时，降低置信度并考虑 insufficient_evidence。",
             "输出必须说明支持证据、降低确定性的证据、缺失信息和是否需要人工复核。",
         ],
         "screening_rubric": {
@@ -99,7 +104,7 @@ def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict
                 "同时存在较持续参与、较高交互密度、重复操作或多个事件窗口一致的风险性使用模式。"
             ),
             "high_risk": (
-                "证据显示强持续参与、强重复交互和多窗口一致的风险性使用模式；仍需人工复核，不能视为诊断。"
+                "证据显示强持续参与、强重复交互和多窗口一致的风险性使用模式。"
             ),
             "insufficient_evidence": (
                 "证据包内部质量、可见性、关键行为指标或覆盖度不足，无法支持可靠筛查判断。"
@@ -140,3 +145,6 @@ def build_llm_evidence_package(sample_id: str, evidence: dict[str, Any]) -> dict
             },
         },
     }
+    if stateful_behavior:
+        package["stateful_behavior"] = stateful_behavior
+    return package

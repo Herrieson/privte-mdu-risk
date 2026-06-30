@@ -49,6 +49,8 @@ Current algorithm modules:
 ```text
 manifest_only.py          # schema/data-flow baseline
 privte_preprocessor_v0.py # active frame-proxy preprocessor MVP
+privte_preprocessor_v1.py # calibrated v1 with thresholded event selection
+privte_preprocessor_v2.py # stateful v2 with per-window states and episodes
 ```
 
 Archived historical algorithms are under

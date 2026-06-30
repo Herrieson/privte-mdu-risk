@@ -18,6 +18,8 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+from tqdm import tqdm
+
 
 RISK_LEVELS = [
     "no_observed_risk",
@@ -253,8 +255,18 @@ def read_existing_predictions(path: Path) -> set[str]:
 
 
 def is_retryable_error(error: Exception) -> bool:
-    message = str(error)
-    return "HTTP 429" in message or "rate limit" in message.lower()
+    message = str(error).lower()
+    retryable_fragments = (
+        "http 429",
+        "rate limit",
+        "connection reset",
+        "remote end closed connection",
+        "timed out",
+        "timeout",
+        "temporarily unavailable",
+        "connection aborted",
+    )
+    return any(fragment in message for fragment in retryable_fragments)
 
 
 def slugify_tag(value: str) -> str:
@@ -410,56 +422,61 @@ def main() -> int:
         },
     )
 
-    for record in records:
-        sample_id = record["sample_id"]
-        messages = build_messages(record)
-        append_jsonl(
-            prompts_path,
-            {
-                "sample_id": sample_id,
-                "messages": messages,
-            },
-        )
-        if args.dry_run or sample_id in seen:
-            continue
-        output_item = {
-            "sample_id": sample_id,
-            "target_label": label_from_record(record),
-            "prediction": None,
-            "raw_response": None,
-            "error": None,
-        }
-        for attempt in range(args.max_retries + 1):
-            try:
-                response = chat_completion(
-                    base_url=args.base_url,
-                    api_key=api_key,
-                    model=args.model,
-                    messages=messages,
-                    temperature=args.temperature,
-                    max_tokens=args.max_tokens,
-                    token_budget_param=token_budget_param,
-                    timeout_sec=args.timeout_sec,
-                    json_mode=not args.no_json_mode,
-                    user_agent=args.user_agent,
+    with tqdm(records, desc="LLM baseline", unit="sample") as pbar:
+        for record in pbar:
+            sample_id = record["sample_id"]
+            messages = build_messages(record)
+            append_jsonl(
+                prompts_path,
+                {
+                    "sample_id": sample_id,
+                    "messages": messages,
+                },
+            )
+            if args.dry_run or sample_id in seen:
+                pbar.set_postfix_str(
+                    f"{'skip' if sample_id in seen else 'dry_run'}={sample_id}"
                 )
-                content = response["choices"][0]["message"]["content"]
-                prediction, parse_error = parse_json_response(content)
-                output_item["prediction"] = prediction
-                output_item["raw_response"] = content
-                output_item["error"] = parse_error
-                output_item["usage"] = response.get("usage")
-                output_item["attempts"] = attempt + 1
-                break
-            except Exception as exc:
-                output_item["error"] = str(exc)
-                output_item["attempts"] = attempt + 1
-                if attempt >= args.max_retries or not is_retryable_error(exc):
+                continue
+            output_item = {
+                "sample_id": sample_id,
+                "target_label": label_from_record(record),
+                "prediction": None,
+                "raw_response": None,
+                "error": None,
+            }
+            for attempt in range(args.max_retries + 1):
+                try:
+                    response = chat_completion(
+                        base_url=args.base_url,
+                        api_key=api_key,
+                        model=args.model,
+                        messages=messages,
+                        temperature=args.temperature,
+                        max_tokens=args.max_tokens,
+                        token_budget_param=token_budget_param,
+                        timeout_sec=args.timeout_sec,
+                        json_mode=not args.no_json_mode,
+                        user_agent=args.user_agent,
+                    )
+                    content = response["choices"][0]["message"]["content"]
+                    prediction, parse_error = parse_json_response(content)
+                    output_item["prediction"] = prediction
+                    output_item["raw_response"] = content
+                    output_item["error"] = parse_error
+                    output_item["usage"] = response.get("usage")
+                    output_item["attempts"] = attempt + 1
                     break
-                time.sleep(args.retry_sleep_sec * (attempt + 1))
-        append_jsonl(predictions_path, output_item)
-        if args.sleep_sec:
-            time.sleep(args.sleep_sec)
+                except Exception as exc:
+                    output_item["error"] = str(exc)
+                    output_item["attempts"] = attempt + 1
+                    if attempt >= args.max_retries or not is_retryable_error(exc):
+                        break
+                    time.sleep(args.retry_sleep_sec * (attempt + 1))
+            append_jsonl(predictions_path, output_item)
+            pbar.set_postfix_str(sample_id)
+            if args.sleep_sec:
+                time.sleep(args.sleep_sec)
 
     if args.dry_run:
         print(f"wrote_prompts={prompts_path}")

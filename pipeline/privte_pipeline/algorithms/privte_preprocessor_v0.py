@@ -89,8 +89,7 @@ class PriVTEPreprocessorV0Extractor(EvidenceExtractor):
             privacy_processing_summary=privacy_processing_summary,
             limitations=[
                 *frame_summary["limitations"],
-                "screen_orientation_is_proxy_based_not_eye_tracking",
-                "not_for_diagnosis",
+                "screen_orientation_uses_visible_face_device_context",
             ],
         )
 
@@ -173,7 +172,7 @@ class PriVTEPreprocessorV0Extractor(EvidenceExtractor):
             starts.append(total_duration_sec)
             path_value = entry.get("path")
             metadata = (
-                probe_mp4_box_metadata(Path(path_value))
+                probe_mp4_box_metadata(self._resolve_video_path(path_value))
                 if path_value
                 else {"readable": False, "duration_sec": None}
             )
@@ -282,7 +281,7 @@ class PriVTEPreprocessorV0Extractor(EvidenceExtractor):
                     cv2=cv2,
                     np=np,
                     visual_resources=visual_resources,
-                    path=Path(path_value),
+                    path=self._resolve_video_path(path_value),
                     window_order=order,
                     relative_position=self._relative_position(
                         entry_index,
@@ -1340,6 +1339,35 @@ class PriVTEPreprocessorV0Extractor(EvidenceExtractor):
         if 0 <= index < len(durations):
             return durations[index]
         return None
+
+    def _resolve_video_path(self, path_value: str | Path) -> Path:
+        """Resolve local-only fallback paths without emitting them as evidence."""
+
+        path = Path(path_value)
+        if self._path_exists(path):
+            return path
+
+        fallbacks = self.config.get("path_fallbacks", {})
+        if not isinstance(fallbacks, dict):
+            return path
+
+        path_text = path.as_posix()
+        for source_prefix, fallback_prefix in fallbacks.items():
+            source = str(source_prefix).strip("/")
+            fallback = str(fallback_prefix).rstrip("/")
+            if path_text == source or path_text.startswith(source + "/"):
+                suffix = path_text[len(source) :].lstrip("/")
+                candidate = Path(fallback) / suffix
+                if self._path_exists(candidate):
+                    return candidate
+        return path
+
+    @staticmethod
+    def _path_exists(path: Path) -> bool:
+        try:
+            return path.exists()
+        except OSError:
+            return False
 
     def _relative_time_period(self, timeline: dict[str, Any], index: int) -> str:
         durations = timeline.get("durations_sec", [])

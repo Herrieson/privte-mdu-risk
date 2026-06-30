@@ -217,11 +217,15 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Data
-
 # Local model assets
 models/mediapipe/*.task
 !models/mediapipe/.gitkeep
 models/yolo/*.pt
 !models/yolo/.gitkeep
-data/
+
+# Local sensitive data and generated artifacts
+/data
+/data/
+/data.local_backup_before_mnt_link/
+/outputs/*
+!/outputs/README.md
